@@ -147,37 +147,47 @@ func ValidateToken(validate string) string {
 				ioutil.WriteFile(folderName+"/services/jwt.go", jwtBytes, 0)
 
 				if runtime.GOOS == "windows" {
-					alias := ("cd " + folderName + "; ")
-					fmt.Println(alias)
-					//INSTALL DEPENDENCIES
-					modInit, err := exec.Command("cmd", "/c", alias+" go mod init github.com/"+folderName).CombinedOutput()
-					if err != nil {
-						os.Stderr.WriteString(err.Error())
-					}
-					fmt.Println(string(modInit))
+					cmd := exec.Command("cmd", "/c", "go mod init github.com/"+folderName)
+					cmd.Dir = folderName
 
-					installDependencies, err := exec.Command("cmd", "/c", alias+" go get ./...").CombinedOutput()
+					//INSTALL DEPENDENCIES
+					out, err := cmd.Output()
 					if err != nil {
 						os.Stderr.WriteString(err.Error())
 					}
-					fmt.Println(string(installDependencies))
+					fmt.Println(string(out))
+
+					installDependencies := exec.Command("cmd", "/c", "go get ./...")
+					installDependencies.Dir = folderName
+
+					//INSTALL DEPENDENCIES
+					installDependenciesOut, err := installDependencies.Output()
+					if err != nil {
+						os.Stderr.WriteString(err.Error())
+					}
+					fmt.Println(string(installDependenciesOut))
 				}
 
 				if runtime.GOOS == "linux" {
-					alias := ("cd " + folderName + "; ")
-					fmt.Println(alias)
-					//INSTALL DEPENDENCIES
-					modInit, err := exec.Command("sh", "/c", alias+" go mod init github.com/"+folderName).CombinedOutput()
-					if err != nil {
-						os.Stderr.WriteString(err.Error())
-					}
-					fmt.Println(string(modInit))
+					cmd := exec.Command("cmd", "/c", "go mod init github.com/"+folderName)
+					cmd.Dir = folderName
 
-					installDependencies, err := exec.Command("sh", "/c", alias+" go get ./...").CombinedOutput()
+					//INSTALL DEPENDENCIES
+					out, err := cmd.Output()
 					if err != nil {
 						os.Stderr.WriteString(err.Error())
 					}
-					fmt.Println(string(installDependencies))
+					fmt.Println(string(out))
+
+					installDependencies := exec.Command("cmd", "/c", "go get ./...")
+					installDependencies.Dir = folderName
+
+					//INSTALL DEPENDENCIES
+					installDependenciesOut, err := installDependencies.Output()
+					if err != nil {
+						os.Stderr.WriteString(err.Error())
+					}
+					fmt.Println(string(installDependenciesOut))
 				}
 
 				return nil
