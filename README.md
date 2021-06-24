@@ -15,12 +15,12 @@ Gojira is a cli tool to create base app for you.
 
 ## Installation
 
-Gojira requires [Go](https://golang.org/) v11+ to run.
+Gojira requires [Go](https://golang.org/) v1.11+ to run.
 
 Install the dependencies and devDependencies and start the server.
 
 ```sh
-go get
+go get github.com/saturnavt/gojira
 ```
 
 
@@ -29,13 +29,13 @@ go get
 In your terminal type:
 
 ```sh
-gojira // This will show all the commands avaible
+gojira // This will show all the commands available
 ```
 
 To create a new gin-gonic project:
 
 ```
-gojira gin --folder yourProjectName
+gojira gin --folder yourProjectName // yourProjectName is the name of your new project
 ```
 
 ## License
