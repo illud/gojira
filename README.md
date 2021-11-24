@@ -11,8 +11,8 @@ Gojira is a cli tool to create clean architecture app for you including gin-goni
 ## Features
 - Clean Architecture Folder Structure (https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
 - Gin Gonic (https://github.com/gin-gonic/gin)
-- Jwt (github.com/dgrijalva/jwt-go)
-- Bcrypt (golang.org/x/crypto/bcrypt)
+- Jwt (https://github.com/dgrijalva/jwt-go)
+- Bcrypt (https://golang.org/x/crypto/bcrypt)
 - Example tasks api
 
 ## Installation
@@ -37,7 +37,13 @@ gojira // This will show all the commands available
 To create a new gin-gonic with clean architecture project:
 
 ```
-gojira new --folder yourProjectName // yourProjectName is the name of your new project
+gojira new --folder yourProjectName
+```
+
+To create a new module:
+
+```
+gojira module --generate yourModuleName
 ```
 
 Folder Structure:
@@ -71,14 +77,19 @@ Folder Structure:
             |          |-tasks-repository.go --> This is and example repository file(Create your own repositories)
             |-utils
                 |
-                |-services
+                |-errors
                 |    |
-                |    |-jwt
-                |       |
-                |       |-jwt.go
-                |-bcrypt
-                    |
-                    |-bcrypt.go
+                |    |-errros.go
+                |
+                |-services
+                     |
+                     |-jwt
+                     |  |
+                     |  |-jwt.go
+                     |
+                     |-bcrypt
+                        |
+                        |-bcrypt.go
 ```
 
 ## License
