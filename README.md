@@ -84,9 +84,9 @@ Folder Structure:
 |           |
 |           |-entities
 |           |      |
-|           |      |-task --> This is and example package(Create your own packages)
+|           |      |-tasks --> This is and example package(Create your own packages)
 |           |          |
-|           |          |-task.entity.go --> This is and example entity file(Create your own entity)
+|           |          |-tasks.entity.go --> This is and example entity file(Create your own entity)
 |           |
 |           |-respository
 |                  |
