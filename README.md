@@ -97,12 +97,12 @@ Folder Structure:
         |-services
                 |
                 |-jwt
-                |  |
-                |  |-jwt.go
+                |   |
+                |   |-jwt.go
                 |
                 |-bcrypt
-                |
-                |-bcrypt.go
+                    |
+                    |-bcrypt.go
 ```
 
 ## License
