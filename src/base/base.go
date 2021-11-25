@@ -130,7 +130,7 @@ func Delete(taskId string) string {
 
 	//Add data to task.entity.go
 	taskEntitiesString :=
-		`package task
+		`package tasks
 
 type Task struct {
 	Id          string
@@ -408,4 +408,143 @@ type ` + strings.Title(strings.ToLower(moduleName)) + ` struct {
 }`
 	entitiesBytes := []byte(entitiesString)
 	ioutil.WriteFile("infraestructure/entities/"+moduleName+"/"+moduleName+".entity.go", entitiesBytes, 0)
+}
+
+func BaseDbClient(clientName string) {
+	// Add database client
+	clientString := ""
+	if clientName == "mysql" {
+		clientString =
+			`package databases
+		
+import (
+	"database/sql"
+	"fmt"
+
+	_ "github.com/go-sql-driver/mysql"
+)
+
+var CLIENT = DbConnection()
+
+func DbConnection() *sql.DB {
+	//CONNECTION
+	db, err := sql.Open("mysql", "databaseUsername:databasePassword@tcp(localhost:3306)/yourDatabaseTablename")
+	
+	if err != nil {
+		fmt.Println("DATABASE CONNECTION ERROR: ", err)
+	}
+	fmt.Println("CONNECTED")
+	return db
+}`
+	}
+
+	if clientName == "gorm" {
+		clientString =
+			`package databases
+		
+import (
+	"fmt"
+
+	_ "github.com/go-sql-driver/mysql"
+	"github.com/jinzhu/gorm"
+)
+
+var CLIENT = DbConnection()
+
+func DbConnection() *gorm.DB {
+	//CONNECTION
+	db, err := gorm.Open("mysql", "databaseUsername:databasePassword@tcp(127.0.0.1:3306)/yourDatabaseTablename?charset=utf8mb4&parseTime=True&loc=Local")
+
+	if err != nil {
+		fmt.Println("DATABASE CONNECTION ERROR: ", err)
+	}
+	// sqlDB, err := db.DB()
+	// defer sqlDB.Close()
+	// defer db.Close()
+	fmt.Println("CONNECTED")
+	return db
+}`
+	}
+
+	if clientName == "prisma" {
+
+		dir, err := os.Getwd()
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println(dir)
+		var ss []string
+		if runtime.GOOS == "windows" {
+			ss = strings.Split(dir, "\\")
+		} else {
+			ss = strings.Split(dir, "/")
+		}
+
+		currentDirName := ss[len(ss)-1]
+
+		clientString =
+			`package databases
+		
+import (
+	"fmt"
+
+	"github.com/` + currentDirName + `/infraestructure/databases/prisma/db"
+	"golang.org/x/net/context"
+)
+
+var Client = DB()
+
+func DB() *db.PrismaClient {
+	client := db.NewClient()
+	if err := client.Prisma.Connect(); err != nil {
+		fmt.Println(err)
+	}
+
+	// defer func() {
+	// 	if err := client.Prisma.Disconnect(); err != nil {
+	// 		panic(err)
+	// 	}
+	// }()
+
+	return client
+}
+
+var Context = ContextService()
+
+func ContextService() context.Context {
+	ctx := context.Background()
+	return ctx
+}`
+
+		//Insertdata into prisma.schema
+		prismaString :=
+			`datasource db {
+	// could be postgresql or mysql
+	provider = "sqlite"
+	url      = "file:dev.db"
+}
+
+generator db {
+	provider = "go run github.com/prisma/prisma-client-go"
+	// set the output folder and package name
+	   output           = "./infraestructure/databases/prisma/db"
+	   package          = "db"
+}
+
+//This is and example table add your own schemas
+model Tasks {
+	id        Int      @id @default(autoincrement())
+	createdAt DateTime @default(now())
+	updatedAt DateTime @updatedAt
+	title     String
+	desc      String
+}`
+
+		prismaSChemaBytes := []byte(prismaString)
+		ioutil.WriteFile("schema.prisma", prismaSChemaBytes, 0)
+	}
+
+	//Add data to client.go
+	clientBytes := []byte(clientString)
+	ioutil.WriteFile("infraestructure/databases/client.go", clientBytes, 0)
 }

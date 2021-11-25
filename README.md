@@ -1,6 +1,6 @@
 # Gojira
 
-![](https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Go_Logo_Blue.svg/400px-Go_Logo_Blue.svg.png)
+![](https://raw.githubusercontent.com/saturnavt/eskolvar.github.io/main/assets/img/gojira.png)
 ## Create project with Clean Architecture folder structure
 
 \
@@ -15,6 +15,10 @@ Gojira is a cli tool to create clean architecture app for you including gin-goni
 - Jwt (https://github.com/dgrijalva/jwt-go)
 - Bcrypt (https://golang.org/x/crypto/bcrypt)
 - Auto generate module with crud example
+- Auto generate db service client 
+  - Mysql
+  - Gorm
+  - Prisma
 - Example tasks api
 
 ## Installation
@@ -28,7 +32,7 @@ go get github.com/saturnavt/gojira
 ```
 
 
-### How to use
+## How to use
 
 In your terminal type to see all avaible commands:
 
@@ -45,7 +49,7 @@ gojira new --folder yourProjectName
 To create a new module with crud:
 
 ```
-gojira module --generate yourModuleName
+gojira module --generate-crud yourModuleName
 ```
 
 To create a new module with simple example:
@@ -54,6 +58,30 @@ To create a new module with simple example:
 gojira module-simple --generate yourModuleName
 ```
 
+## Database service
+To create a new db service client with Mysql, Gorm or Prisma:
+
+Mysql - to learn more visit (https://github.com/go-sql-driver/mysql)
+```
+gojira db --client mysql
+```
+
+Gorm - to learn more visit (https://github.com/jinzhu/gorm)
+```
+gojira db --client gorm
+```
+
+Prisma - to learn more visit (https://github.com/prisma/prisma-client-go)
+```
+gojira db --client prisma
+```
+
+### This will generate a database connection in infraestructure/databases/client.go
+### to use import the service in your repository like for example:
+
+```
+db "github.com/yourProjectName/infraestructure/databases/client.go"
+```
 # When you create a module dont forget to add the controller to the main.go file, i'm working so it can be added automatically.
 
 

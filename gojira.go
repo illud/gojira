@@ -45,6 +45,12 @@ func main() {
 			Usage: "Generates module just with simple file example",
 			// Destination: &folderName,
 		},
+		&cli.StringFlag{ //DB SERVICE
+			Name:  "client",
+			Value: "client",
+			Usage: "Generates db connection with service",
+			// Destination: &folderName,
+		},
 	}
 
 	app.Commands = []*cli.Command{
@@ -208,7 +214,7 @@ func main() {
 				}
 
 				if runtime.GOOS == "linux" {
-					cmd := exec.Command("cmd", "/c", "go mod init github.com/"+folderName)
+					cmd := exec.Command("sh", "/c", "go mod init github.com/"+folderName)
 					cmd.Dir = folderName
 
 					//INSTALL DEPENDENCIES
@@ -218,7 +224,7 @@ func main() {
 					}
 					fmt.Println(string(out))
 
-					installDependencies := exec.Command("cmd", "/c", "go get -d ./...")
+					installDependencies := exec.Command("sh", "/c", "go get -d ./...")
 					installDependencies.Dir = folderName
 
 					//INSTALL DEPENDENCIES
@@ -348,6 +354,113 @@ func main() {
 				//Generates module data in file
 				base.BaseModuleSimple(moduleName)
 
+				return nil
+			},
+		},
+		{
+			Name:  "db",
+			Usage: "To create a new db service client use the next command (gojira db --client yourSelection) // yourSelection can be (mysql, gorm or prisma)",
+			Flags: myFlags,
+			Action: func(c *cli.Context) error {
+				flagName := c.String("client")
+				if flagName == "mysql" {
+					base.BaseDbClient("mysql")
+				}
+				if flagName == "gorm" {
+					base.BaseDbClient("gorm")
+				}
+				if flagName == "prisma" {
+					base.BaseDbClient("prisma")
+					//create/schema.prisma
+					os.MkdirAll("infraestructure/databases/prisma/db", os.ModePerm)
+					fmt.Print("infraestructure/databases/prisma/db")
+					fmt.Println(" Ok")
+
+					os.Create("schema.prisma")
+					fmt.Print("schema.prisma")
+					fmt.Println(" Ok")
+
+					fmt.Println("")
+
+					fmt.Println("To get this up and running in your database, we use the Prisma migration tool migrate to create and migrate our database:")
+					fmt.Println("sync the database with your schema go run github.com/prisma/prisma-client-go migrate dev --name init")
+					fmt.Println("After the migration, the Prisma Client Go client is automatically generated in your project. If you just want to re-generate the client, run go run github.com/prisma/prisma-client-go generate.")
+
+					fmt.Println("For more visit https://github.com/prisma/prisma-client-go")
+
+					//Install db DEPENDENCIES
+					if runtime.GOOS == "windows" {
+						fmt.Println("")
+						fmt.Println("executing go get github.com/prisma/prisma-client-go")
+
+						installDependencies := exec.Command("cmd", "/c", "go get github.com/prisma/prisma-client-go")
+
+						//INSTALL DEPENDENCIES
+						installDependenciesOut, err := installDependencies.Output()
+						if err != nil {
+							os.Stderr.WriteString(err.Error())
+						}
+						fmt.Println(string(installDependenciesOut))
+
+						//Run prisma init
+						installPrismaDependencies := exec.Command("cmd", "/c", "go run github.com/prisma/prisma-client-go migrate dev --name init")
+
+						//INSTALL DEPENDENCIES
+						installPrismaDependenciesOut, err := installPrismaDependencies.Output()
+						if err != nil {
+							os.Stderr.WriteString(err.Error())
+						}
+						fmt.Println(string(installPrismaDependenciesOut))
+					}
+
+					if runtime.GOOS == "linux" {
+						fmt.Println("")
+						fmt.Println("executing go get github.com/prisma/prisma-client-go")
+
+						installDependencies := exec.Command("sh", "/c", "go get github.com/prisma/prisma-client-go.")
+
+						//INSTALL DEPENDENCIES
+						installDependenciesOut, err := installDependencies.Output()
+						if err != nil {
+							os.Stderr.WriteString(err.Error())
+						}
+						fmt.Println(string(installDependenciesOut))
+
+						//Run prisma init
+						installPrismaDependencies := exec.Command("sh", "/c", "go run github.com/prisma/prisma-client-go migrate dev --name init")
+
+						//INSTALL DEPENDENCIES
+						installPrismaDependenciesOut, err := installPrismaDependencies.Output()
+						if err != nil {
+							os.Stderr.WriteString(err.Error())
+						}
+						fmt.Println(string(installPrismaDependenciesOut))
+					}
+
+				}
+
+				//Install db DEPENDENCIES
+				if runtime.GOOS == "windows" {
+					installDependencies := exec.Command("cmd", "/c", "go get -d ./...")
+
+					//INSTALL DEPENDENCIES
+					installDependenciesOut, err := installDependencies.Output()
+					if err != nil {
+						os.Stderr.WriteString(err.Error())
+					}
+					fmt.Println(string(installDependenciesOut))
+				}
+
+				if runtime.GOOS == "linux" {
+					installDependencies := exec.Command("sh", "/c", "go get -d ./...")
+
+					//INSTALL DEPENDENCIES
+					installDependenciesOut, err := installDependencies.Output()
+					if err != nil {
+						os.Stderr.WriteString(err.Error())
+					}
+					fmt.Println(string(installDependenciesOut))
+				}
 				return nil
 			},
 		},
