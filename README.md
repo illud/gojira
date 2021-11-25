@@ -1,7 +1,7 @@
 # Gojira
 ## Create project with Clean Architecture folder structure
 
-[![N|Solid](https://golang.org/lib/godoc/images/go-logo-blue.svg)](https://nodesource.com/products/nsolid)
+[![N|Solid](https://en.wikipedia.org/wiki/Go_(programming_language)#/media/File:Go_Logo_Blue.svg)](https://nodesource.com/products/nsolid)
 
 
 Gojira is a cli tool to create clean architecture app for you including gin-gonic, bcrypt and jwt.
