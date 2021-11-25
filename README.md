@@ -66,7 +66,7 @@ Folder Structure:
 |        |      
 |        |-tasks --> This is and example package(Create your own packages)
 |            |       
-|            |-tasks-controller.go --> This is and example controller file(Create your own controllers)
+|            |-tasks.controller.go --> This is and example controller file(Create your own controllers)
 |            
 |-- domain
 |      |
@@ -74,19 +74,25 @@ Folder Structure:
 |            |
 |            |-tasks --> This is and example package(Create your own packages)
 |                | 
-|                |-task-useCase.go --> This is and example useCase file(Create your own useCases)
+|                |-task.useCase.go --> This is and example useCase file(Create your own useCases)
 |
 |-- infraestructure
 |           |
 |           |-databases
 |           |      |
 |           |      |-client.go
+            |
+|           |-entities
+|           |      |
+|           |      |-task --> This is and example package(Create your own packages)
+            |          |
+            |          |-task.entity.go --> This is and example entity file(Create your own entity)
 |           |
 |           |-respository
 |                  |
 |                  |-tasks  --> This is and example package(Create your own packages)
 |                      | 
-|                      |-tasks-repository.go --> This is and example repository file(Create your own repositories)
+|                      |-tasks.repository.go --> This is and example repository file(Create your own repositories)
 |                       
 |-- utils
         |

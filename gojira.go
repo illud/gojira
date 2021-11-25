@@ -73,8 +73,8 @@ func main() {
 				fmt.Println(" Ok")
 
 				//Controller/Tasks/task-controller.go
-				os.Create(folderName + "/controller/tasks/task-controller.go")
-				fmt.Print(folderName + "/controller/tasks/task-controller.go")
+				os.Create(folderName + "/controller/tasks/task.controller.go")
+				fmt.Print(folderName + "/controller/tasks/task.controller.go")
 				fmt.Println(" Ok")
 
 				//Domain
@@ -93,8 +93,8 @@ func main() {
 				fmt.Println(" Ok")
 
 				//useCase/tasks/tasks-useCase.go
-				os.Create(folderName + "/domain/useCase/tasks/tasks-useCase.go")
-				fmt.Print(folderName + "/domain/useCase/tasks/tasks-useCase.go")
+				os.Create(folderName + "/domain/useCase/tasks/tasks.useCase.go")
+				fmt.Print(folderName + "/domain/useCase/tasks/tasks.useCase.go")
 				fmt.Println(" Ok")
 
 				//Infraestructure
@@ -112,6 +112,21 @@ func main() {
 				fmt.Print(folderName + "/infraestructure/databases/client.go")
 				fmt.Println(" Ok")
 
+				//Entities
+				os.MkdirAll(folderName+"/infraestructure/entities", os.ModePerm)
+				fmt.Print(folderName + "/infraestructure/entities")
+				fmt.Println(" Ok")
+
+				//Entities/tasks
+				os.MkdirAll(folderName+"/infraestructure/entities/tasks", os.ModePerm)
+				fmt.Print(folderName + "/infraestructure/entities/tasks")
+				fmt.Println(" Ok")
+
+				//Entities/tasks.entity.go
+				os.Create(folderName + "/infraestructure/entities/tasks/tasks.entity.go")
+				fmt.Print(folderName + "/infraestructure/entities/tasks/tasks.entity.go")
+				fmt.Println(" Ok")
+
 				//Repository
 				os.MkdirAll(folderName+"/infraestructure/repository", os.ModePerm)
 				fmt.Print(folderName + "/infraestructure/repository")
@@ -123,8 +138,8 @@ func main() {
 				fmt.Println(" Ok")
 
 				//Repository/tasks/tasks-repository.go
-				os.Create(folderName + "/infraestructure/repository/tasks/tasks-repository.go")
-				fmt.Print(folderName + "/infraestructure/repository/tasks/tasks-repository.go")
+				os.Create(folderName + "/infraestructure/repository/tasks/tasks.repository.go")
+				fmt.Print(folderName + "/infraestructure/repository/tasks/tasks.repository.go")
 				fmt.Println(" Ok")
 
 				//Utils
@@ -238,8 +253,8 @@ func main() {
 				fmt.Println(" Ok")
 
 				//Controller/moduleName/moduleName-controller.go
-				os.Create("controller/" + moduleName + "/" + moduleName + "-controller.go")
-				fmt.Print("controller/" + moduleName + "/" + moduleName + "-controller.go")
+				os.Create("controller/" + moduleName + "/" + moduleName + ".controller.go")
+				fmt.Print("controller/" + moduleName + "/" + moduleName + ".controller.go")
 				fmt.Println(" Ok")
 
 				//useCase
@@ -249,8 +264,8 @@ func main() {
 				fmt.Println(" Ok")
 
 				//useCase/moduleName/moduleName-useCase.go
-				os.Create("domain/useCase/" + moduleName + "/" + moduleName + "-useCase.go")
-				fmt.Print("domain/useCase/" + moduleName + "/" + moduleName + "-useCase.go")
+				os.Create("domain/useCase/" + moduleName + "/" + moduleName + ".useCase.go")
+				fmt.Print("domain/useCase/" + moduleName + "/" + moduleName + ".useCase.go")
 				fmt.Println(" Ok")
 
 				//Repository
@@ -260,8 +275,18 @@ func main() {
 				fmt.Println(" Ok")
 
 				//Repository/moduleName/moduleName-repository.go
-				os.Create("infraestructure/repository/" + moduleName + "/" + moduleName + "-repository.go")
-				fmt.Print("infraestructure/repository/" + moduleName + "/" + moduleName + "-repository.go")
+				os.Create("infraestructure/repository/" + moduleName + "/" + moduleName + ".repository.go")
+				fmt.Print("infraestructure/repository/" + moduleName + "/" + moduleName + ".repository.go")
+				fmt.Println(" Ok")
+
+				//Entities/moduleName
+				os.MkdirAll("infraestructure/entities/"+moduleName+"", os.ModePerm)
+				fmt.Print("infraestructure/entities/" + moduleName + "")
+				fmt.Println(" Ok")
+
+				//Entities/moduleName.entity.go
+				os.Create("infraestructure/entities/" + moduleName + "/" + moduleName + ".entity.go")
+				fmt.Print("infraestructure/entities/" + moduleName + "/" + moduleName + ".entity.go")
 				fmt.Println(" Ok")
 
 				//Generates module with crud data
@@ -284,8 +309,8 @@ func main() {
 				fmt.Println(" Ok")
 
 				//Controller/moduleName/moduleName-controller.go
-				os.Create("controller/" + moduleName + "/" + moduleName + "-controller.go")
-				fmt.Print("controller/" + moduleName + "/" + moduleName + "-controller.go")
+				os.Create("controller/" + moduleName + "/" + moduleName + ".controller.go")
+				fmt.Print("controller/" + moduleName + "/" + moduleName + ".controller.go")
 				fmt.Println(" Ok")
 
 				//useCase
@@ -295,8 +320,8 @@ func main() {
 				fmt.Println(" Ok")
 
 				//useCase/moduleName/moduleName-useCase.go
-				os.Create("domain/useCase/" + moduleName + "/" + moduleName + "-useCase.go")
-				fmt.Print("domain/useCase/" + moduleName + "/" + moduleName + "-useCase.go")
+				os.Create("domain/useCase/" + moduleName + "/" + moduleName + ".useCase.go")
+				fmt.Print("domain/useCase/" + moduleName + "/" + moduleName + ".useCase.go")
 				fmt.Println(" Ok")
 
 				//Repository
@@ -306,8 +331,18 @@ func main() {
 				fmt.Println(" Ok")
 
 				//Repository/moduleName/moduleName-repository.go
-				os.Create("infraestructure/repository/" + moduleName + "/" + moduleName + "-repository.go")
-				fmt.Print("infraestructure/repository/" + moduleName + "/" + moduleName + "-repository.go")
+				os.Create("infraestructure/repository/" + moduleName + "/" + moduleName + ".repository.go")
+				fmt.Print("infraestructure/repository/" + moduleName + "/" + moduleName + ".repository.go")
+				fmt.Println(" Ok")
+
+				//Entities/moduleName
+				os.MkdirAll("infraestructure/entities/"+moduleName+"", os.ModePerm)
+				fmt.Print("infraestructure/entities/" + moduleName + "")
+				fmt.Println(" Ok")
+
+				//Entities/moduleName.entity.go
+				os.Create("infraestructure/entities/" + moduleName + "/" + moduleName + ".entity.go")
+				fmt.Print("infraestructure/entities/" + moduleName + "/" + moduleName + ".entity.go")
 				fmt.Println(" Ok")
 
 				//Generates module data in file

@@ -42,16 +42,11 @@ func main() {
 import (
 	"github.com/gin-gonic/gin"
 	tasksUseCase "github.com/` + folderName + `/domain/useCase/tasks"
+	tasksEntity "github.com/gojira/infraestructure/entities/tasks"
 )
 
-type Task struct {
-	Id          string
-	Title       string
-	Description string
-}
-
 func CreateTasks(c *gin.Context) {
-	var task Task
+	var task tasksEntity.Task
 	c.ShouldBindJSON(&task)
 
 	c.JSON(200, gin.H{
@@ -66,7 +61,7 @@ func GetTasks(c *gin.Context) {
 }
 
 func UpdateTasks(c *gin.Context) {
-	var task Task
+	var task tasksEntity.Task
 	c.ShouldBindJSON(&task)
 	taskId := c.Param("id")
 
@@ -83,9 +78,9 @@ func DeleteTasks(c *gin.Context) {
 	})
 }`
 	taskControllerBytes := []byte(taskControllerString)
-	ioutil.WriteFile(folderName+"/controller/tasks/task-controller.go", taskControllerBytes, 0)
+	ioutil.WriteFile(folderName+"/controller/tasks/task.controller.go", taskControllerBytes, 0)
 
-	//Add data to task-useCase.go
+	//Add data to task.useCase.go
 	taskUseCaseString :=
 		`package tasks
 
@@ -109,9 +104,9 @@ func DeleteTasks(taskId string) string {
 	return tasksRepository.Delete(taskId)
 }`
 	taskUseCaseBytes := []byte(taskUseCaseString)
-	ioutil.WriteFile(folderName+"/domain/useCase/tasks/tasks-useCase.go", taskUseCaseBytes, 0)
+	ioutil.WriteFile(folderName+"/domain/useCase/tasks/tasks.useCase.go", taskUseCaseBytes, 0)
 
-	//Add data to task-repository.go
+	//Add data to task.repository.go
 	taskRepositoryString :=
 		`package tasks
 
@@ -131,7 +126,19 @@ func Delete(taskId string) string {
 	return "task deleted " + taskId
 }`
 	taskRepositoryBytes := []byte(taskRepositoryString)
-	ioutil.WriteFile(folderName+"/infraestructure/repository/tasks/tasks-repository.go", taskRepositoryBytes, 0)
+	ioutil.WriteFile(folderName+"/infraestructure/repository/tasks/tasks.repository.go", taskRepositoryBytes, 0)
+
+	//Add data to task.entity.go
+	taskEntitiesString :=
+		`package task
+
+type Task struct {
+	Id          string
+	Title       string
+	Description string
+}`
+	taskEntitiesBytes := []byte(taskEntitiesString)
+	ioutil.WriteFile(folderName+"/infraestructure/entities/tasks/tasks.entity.go", taskEntitiesBytes, 0)
 
 	//Add data to bcrypt.go
 	bcrypt := `package services
@@ -236,15 +243,11 @@ func BaseModuleCrud(moduleName string) {
 import (
 	"github.com/gin-gonic/gin"
 	` + moduleName + `UseCase "github.com/` + currentDirName + `/domain/useCase/` + moduleName + `"
+	` + moduleName + `Entity "github.com/gojira/infraestructure/entities/` + moduleName + `"
 )
 
-type ` + strings.Title(strings.ToLower(moduleName)) + ` struct {
-	Id          string
-	Title       string
-}
-
 func Create` + strings.Title(strings.ToLower(moduleName)) + `(c *gin.Context) {
-	var ` + moduleName + ` ` + strings.Title(strings.ToLower(moduleName)) + `
+	var ` + moduleName + ` ` + moduleName + `Entity.` + strings.Title(strings.ToLower(moduleName)) + `
 	c.ShouldBindJSON(&` + moduleName + `)
 
 	c.JSON(200, gin.H{
@@ -259,7 +262,7 @@ func Get` + strings.Title(strings.ToLower(moduleName)) + `(c *gin.Context) {
 }
 
 func Update` + strings.Title(strings.ToLower(moduleName)) + `(c *gin.Context) {
-	var ` + moduleName + ` ` + strings.Title(strings.ToLower(moduleName)) + `
+	var ` + moduleName + ` ` + moduleName + `Entity.` + strings.Title(strings.ToLower(moduleName)) + `
 	c.ShouldBindJSON(&` + moduleName + `)
 	` + moduleName + `Id := c.Param("id")
 
@@ -276,7 +279,7 @@ func Delete` + strings.Title(strings.ToLower(moduleName)) + `(c *gin.Context) {
 	})
 }`
 	controllerBytes := []byte(controllerString)
-	ioutil.WriteFile("controller/"+moduleName+"/"+moduleName+"-controller.go", controllerBytes, 0)
+	ioutil.WriteFile("controller/"+moduleName+"/"+moduleName+".controller.go", controllerBytes, 0)
 
 	//Add data to useCase.go
 	useCaseString :=
@@ -302,7 +305,7 @@ func Delete` + strings.Title(strings.ToLower(moduleName)) + `(` + moduleName + `
 	return ` + moduleName + `Repository.Delete(` + moduleName + `Id)
 }`
 	useCaseBytes := []byte(useCaseString)
-	ioutil.WriteFile("domain/useCase/"+moduleName+"/"+moduleName+"-useCase.go", useCaseBytes, 0)
+	ioutil.WriteFile("domain/useCase/"+moduleName+"/"+moduleName+".useCase.go", useCaseBytes, 0)
 
 	//Add data to repository.go
 	repositoryString :=
@@ -324,7 +327,18 @@ func Delete(` + moduleName + `Id string) string {
 	return "` + moduleName + ` deleted " + ` + moduleName + `Id
 }`
 	repositoryBytes := []byte(repositoryString)
-	ioutil.WriteFile("infraestructure/repository/"+moduleName+"/"+moduleName+"-repository.go", repositoryBytes, 0)
+	ioutil.WriteFile("infraestructure/repository/"+moduleName+"/"+moduleName+".repository.go", repositoryBytes, 0)
+
+	//Add data to moduleName.entity.go
+	entitiesString :=
+		`package ` + moduleName + `
+
+type ` + strings.Title(strings.ToLower(moduleName)) + ` struct {
+	Id    string
+	Title string
+}`
+	entitiesBytes := []byte(entitiesString)
+	ioutil.WriteFile("infraestructure/entities/"+moduleName+"/"+moduleName+".entity.go", entitiesBytes, 0)
 }
 
 func BaseModuleSimple(moduleName string) {
@@ -350,6 +364,7 @@ func BaseModuleSimple(moduleName string) {
 import (
 	"github.com/gin-gonic/gin"
 	` + moduleName + `UseCase "github.com/` + currentDirName + `/domain/useCase/` + moduleName + `"
+	_ "github.com/gojira/infraestructure/entities/` + moduleName + `" // Change _ for ` + moduleName + `Entity or something that works for you
 )
 
 func Get` + strings.Title(strings.ToLower(moduleName)) + `(c *gin.Context) {
@@ -358,7 +373,7 @@ func Get` + strings.Title(strings.ToLower(moduleName)) + `(c *gin.Context) {
 	})
 }`
 	controllerBytes := []byte(controllerString)
-	ioutil.WriteFile("controller/"+moduleName+"/"+moduleName+"-controller.go", controllerBytes, 0)
+	ioutil.WriteFile("controller/"+moduleName+"/"+moduleName+".controller.go", controllerBytes, 0)
 
 	//Add data to useCase.go
 	useCaseString :=
@@ -372,7 +387,7 @@ func Get` + strings.Title(strings.ToLower(moduleName)) + `() string {
 	return ` + moduleName + `Repository.FindAll()
 }`
 	useCaseBytes := []byte(useCaseString)
-	ioutil.WriteFile("domain/useCase/"+moduleName+"/"+moduleName+"-useCase.go", useCaseBytes, 0)
+	ioutil.WriteFile("domain/useCase/"+moduleName+"/"+moduleName+".useCase.go", useCaseBytes, 0)
 
 	//Add data to repository.go
 	repositoryString :=
@@ -382,5 +397,15 @@ func FindAll() string {
 	return "{id: 1, title: '` + moduleName + ` title'}"
 }`
 	repositoryBytes := []byte(repositoryString)
-	ioutil.WriteFile("infraestructure/repository/"+moduleName+"/"+moduleName+"-repository.go", repositoryBytes, 0)
+	ioutil.WriteFile("infraestructure/repository/"+moduleName+"/"+moduleName+".repository.go", repositoryBytes, 0)
+
+	//Add data to moduleName.entity.go
+	entitiesString :=
+		`package ` + moduleName + `
+
+type ` + strings.Title(strings.ToLower(moduleName)) + ` struct {
+
+}`
+	entitiesBytes := []byte(entitiesString)
+	ioutil.WriteFile("infraestructure/entities/"+moduleName+"/"+moduleName+".entity.go", entitiesBytes, 0)
 }
