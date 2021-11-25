@@ -90,7 +90,7 @@ Folder Structure:
 |           |
 |           |-respository
 |                  |
-|                  |-tasks  --> This is and example package(Create your own packages)
+|                  |-tasks --> This is and example package(Create your own packages)
 |                      | 
 |                      |-tasks.repository.go --> This is and example repository file(Create your own repositories)
 |                       
