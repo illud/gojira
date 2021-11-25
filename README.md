@@ -81,12 +81,12 @@ Folder Structure:
 |           |-databases
 |           |      |
 |           |      |-client.go
-            |
+|           |
 |           |-entities
 |           |      |
 |           |      |-task --> This is and example package(Create your own packages)
-            |          |
-            |          |-task.entity.go --> This is and example entity file(Create your own entity)
+|           |          |
+|           |          |-task.entity.go --> This is and example entity file(Create your own entity)
 |           |
 |           |-respository
 |                  |
