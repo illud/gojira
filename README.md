@@ -13,6 +13,7 @@ Gojira is a cli tool to create clean architecture app for you including gin-goni
 - Gin Gonic (https://github.com/gin-gonic/gin)
 - Jwt (https://github.com/dgrijalva/jwt-go)
 - Bcrypt (https://golang.org/x/crypto/bcrypt)
+- Auto generate module with crud example
 - Example tasks api
 
 ## Installation
@@ -28,23 +29,33 @@ go get github.com/saturnavt/gojira
 
 ### How to use
 
-In your terminal type:
+In your terminal type to see all avaible commands:
 
 ```sh
-gojira // This will show all the commands available
+gojira
 ```
 
-To create a new gin-gonic with clean architecture project:
+To create a new gin-gonic with clean architecture project(This includes a crud example with the name of Tasks):
 
 ```
 gojira new --folder yourProjectName
 ```
 
-To create a new module:
+To create a new module with crud:
 
 ```
 gojira module --generate yourModuleName
 ```
+
+To create a new module with simple example:
+
+```
+gojira module-simple --generate yourModuleName
+```
+
+# When you create a module dont forget to add the controller to the main.go file, i'm working so it can be added automatically.
+
+
 
 Folder Structure:
 
@@ -65,31 +76,32 @@ Folder Structure:
 |                |-task-useCase.go --> This is and example useCase file(Create your own useCases)
 |
 |-- infraestructure
-            |
-            |-databases
-            |      |
-            |      |-client.go
-            |
-            |-respository
-            |      |
-            |      |-tasks  --> This is and example package(Create your own packages)
-            |          | 
-            |          |-tasks-repository.go --> This is and example repository file(Create your own repositories)
-            |-utils
+|           |
+|           |-databases
+|           |      |
+|           |      |-client.go
+|           |
+|           |-respository
+|                  |
+|                  |-tasks  --> This is and example package(Create your own packages)
+|                      | 
+|                      |-tasks-repository.go --> This is and example repository file(Create your own repositories)
+|                       
+|-- utils
+        |
+        |-errors
+        |    |
+        |    |-errros.go
+        |
+        |-services
                 |
-                |-errors
-                |    |
-                |    |-errros.go
+                |-jwt
+                |  |
+                |  |-jwt.go
                 |
-                |-services
-                     |
-                     |-jwt
-                     |  |
-                     |  |-jwt.go
-                     |
-                     |-bcrypt
-                        |
-                        |-bcrypt.go
+                |-bcrypt
+                |
+                |-bcrypt.go
 ```
 
 ## License

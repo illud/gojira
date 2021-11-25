@@ -34,9 +34,15 @@ func main() {
 			// Destination: &folderName,
 		},
 		&cli.StringFlag{
+			Name:  "generate-crud",
+			Value: "generate-crud",
+			Usage: "Generates module with crud api",
+			// Destination: &folderName,
+		},
+		&cli.StringFlag{
 			Name:  "generate",
 			Value: "generate",
-			Usage: "Generates module",
+			Usage: "Generates module just with simple file example",
 			// Destination: &folderName,
 		},
 	}
@@ -44,7 +50,7 @@ func main() {
 	app.Commands = []*cli.Command{
 		{
 			Name:  "new",
-			Usage: "To create a new project use the next command (gojira new --folder yourProjectName) this will generate a new gin-gonic project with clean architecture, jwt and bcrypt in services folder ready to use",
+			Usage: "To create a new project use the next command (gojira new --folder yourProjectName) this will generate a new project with example files",
 			Flags: myFlags,
 			Action: func(c *cli.Context) error {
 				//Project
@@ -122,53 +128,47 @@ func main() {
 				fmt.Println(" Ok")
 
 				//Utils
-				os.MkdirAll(folderName+"/infraestructure/utils", os.ModePerm)
-				fmt.Print(folderName + "/infraestructure/utils")
+				os.MkdirAll(folderName+"/utils", os.ModePerm)
+				fmt.Print(folderName + "/utils")
 				fmt.Println(" Ok")
 
 				//Utils/Errors
-				os.MkdirAll(folderName+"/infraestructure/utils/errors", os.ModePerm)
-				fmt.Print(folderName + "/infraestructure/utils/errors")
+				os.MkdirAll(folderName+"/utils/errors", os.ModePerm)
+				fmt.Print(folderName + "/utils/errors")
 				fmt.Println(" Ok")
 
 				//utils/errors/errors.go
-				os.Create(folderName + "/infraestructure/utils/errors/errors.go")
-				fmt.Print(folderName + "/infraestructure/utils/errors/errors.go")
+				os.Create(folderName + "/utils/errors/errors.go")
+				fmt.Print(folderName + "/utils/errors/errors.go")
 				fmt.Println(" Ok")
 
 				//SERVICES
-				os.MkdirAll(folderName+"/infraestructure/utils/services", os.ModePerm)
-				fmt.Print(folderName + "/infraestructure/utils/services")
+				os.MkdirAll(folderName+"/utils/services", os.ModePerm)
+				fmt.Print(folderName + "/utils/services")
 				fmt.Println(" Ok")
 
 				//SERVICES/Jwt
-				os.MkdirAll(folderName+"/infraestructure/utils/services/jwt", os.ModePerm)
-				fmt.Print(folderName + "/infraestructure/utils/services/jwt")
+				os.MkdirAll(folderName+"/utils/services/jwt", os.ModePerm)
+				fmt.Print(folderName + "/utils/services/jwt")
 				fmt.Println(" Ok")
 
 				//SERVICES/Jwt/jwt.go
-				os.Create(folderName + "/infraestructure/utils/services/jwt/jwt.go")
-				fmt.Print(folderName + "/infraestructure/utils/services/jwt/jwt.go")
+				os.Create(folderName + "/utils/services/jwt/jwt.go")
+				fmt.Print(folderName + "/utils/services/jwt/jwt.go")
 				fmt.Println(" Ok")
 
 				//SERVICES/bcrypt
-				os.MkdirAll(folderName+"/infraestructure/utils/services/bcrypt", os.ModePerm)
-				fmt.Print(folderName + "/infraestructure/utils/services/bcrypt")
+				os.MkdirAll(folderName+"/utils/services/bcrypt", os.ModePerm)
+				fmt.Print(folderName + "/utils/services/bcrypt")
 				fmt.Println(" Ok")
 
 				//SERVICES/bcrypt/bcrypt.go
-				os.Create(folderName + "/infraestructure/utils/services/bcrypt/bcrypt.go")
-				fmt.Print(folderName + "/infraestructure/utils/services/bcrypt/bcrypt.go")
+				os.Create(folderName + "/utils/services/bcrypt/bcrypt.go")
+				fmt.Print(folderName + "/utils/services/bcrypt/bcrypt.go")
 				fmt.Println(" Ok")
 
 				//Create base files data
 				base.BaseData(folderName)
-
-				//Display usage
-				fmt.Println("")
-				fmt.Println(" | get started ")
-				fmt.Println(" | cd ", folderName)
-				fmt.Println(" | go run main.go ")
 
 				if runtime.GOOS == "windows" {
 					cmd := exec.Command("cmd", "/c", "go mod init github.com/"+folderName)
@@ -214,28 +214,67 @@ func main() {
 					fmt.Println(string(installDependenciesOut))
 				}
 
+				//Display usage
+				fmt.Println("")
+				fmt.Println(" | get started ")
+				fmt.Println(" | cd ", folderName)
+				fmt.Println(" | go run main.go ")
+				fmt.Println("")
+
 				return nil
 			},
 		},
 		{
 			Name:  "module",
-			Usage: "To create a new module use the next command (gojira module --generate yourModuleName) this will generate a new module",
+			Usage: "To create a new module with crud example use the next command (gojira module --generate-crud yourModuleName)",
 			Flags: myFlags,
 			Action: func(c *cli.Context) error {
-				// dir, err := os.Getwd()
-				// if err != nil {
-				// 	log.Fatal(err)
-				// }
-				// fmt.Println(dir)
-				// var ss []string
-				// if runtime.GOOS == "windows" {
-				// 	ss = strings.Split(dir, "\\")
-				// } else {
-				// 	ss = strings.Split(dir, "/")
-				// }
+				//module name
+				moduleName := c.String("generate-crud")
 
-				// currentDirName := ss[len(ss)-1]
+				//Controller/currentDirName
+				os.MkdirAll("controller/"+moduleName, os.ModePerm)
+				fmt.Print("controller/" + moduleName)
+				fmt.Println(" Ok")
 
+				//Controller/moduleName/moduleName-controller.go
+				os.Create("controller/" + moduleName + "/" + moduleName + "-controller.go")
+				fmt.Print("controller/" + moduleName + "/" + moduleName + "-controller.go")
+				fmt.Println(" Ok")
+
+				//useCase
+				//useCase/moduleName
+				os.MkdirAll("domain/useCase/"+moduleName, os.ModePerm)
+				fmt.Print("domain/useCase/" + moduleName)
+				fmt.Println(" Ok")
+
+				//useCase/moduleName/moduleName-useCase.go
+				os.Create("domain/useCase/" + moduleName + "/" + moduleName + "-useCase.go")
+				fmt.Print("domain/useCase/" + moduleName + "/" + moduleName + "-useCase.go")
+				fmt.Println(" Ok")
+
+				//Repository
+				//Repository/moduleName
+				os.MkdirAll("infraestructure/repository/"+moduleName, os.ModePerm)
+				fmt.Print("infraestructure/repository/" + moduleName)
+				fmt.Println(" Ok")
+
+				//Repository/moduleName/moduleName-repository.go
+				os.Create("infraestructure/repository/" + moduleName + "/" + moduleName + "-repository.go")
+				fmt.Print("infraestructure/repository/" + moduleName + "/" + moduleName + "-repository.go")
+				fmt.Println(" Ok")
+
+				//Generates module with crud data
+				base.BaseModuleCrud(moduleName)
+
+				return nil
+			},
+		},
+		{
+			Name:  "module-simple",
+			Usage: "To create a new module with simple example use the next command (gojira module-simple --generate yourModuleName)",
+			Flags: myFlags,
+			Action: func(c *cli.Context) error {
 				//module name
 				moduleName := c.String("generate")
 
@@ -270,6 +309,9 @@ func main() {
 				os.Create("infraestructure/repository/" + moduleName + "/" + moduleName + "-repository.go")
 				fmt.Print("infraestructure/repository/" + moduleName + "/" + moduleName + "-repository.go")
 				fmt.Println(" Ok")
+
+				//Generates module data in file
+				base.BaseModuleSimple(moduleName)
 
 				return nil
 			},
