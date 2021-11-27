@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"os/exec"
 	"runtime"
 	"strings"
 )
@@ -42,7 +43,7 @@ func main() {
 import (
 	"github.com/gin-gonic/gin"
 	tasksUseCase "github.com/` + folderName + `/domain/useCase/tasks"
-	tasksEntity "github.com/gojira/infraestructure/entities/tasks"
+	tasksEntity "github.com/` + folderName + `/infraestructure/entities/tasks"
 )
 
 func CreateTasks(c *gin.Context) {
@@ -78,7 +79,7 @@ func DeleteTasks(c *gin.Context) {
 	})
 }`
 	taskControllerBytes := []byte(taskControllerString)
-	ioutil.WriteFile(folderName+"/controller/tasks/task.controller.go", taskControllerBytes, 0)
+	ioutil.WriteFile(folderName+"/controller/tasks/tasks.controller.go", taskControllerBytes, 0)
 
 	//Add data to task.useCase.go
 	taskUseCaseString :=
@@ -243,7 +244,7 @@ func BaseModuleCrud(moduleName string) {
 import (
 	"github.com/gin-gonic/gin"
 	` + moduleName + `UseCase "github.com/` + currentDirName + `/domain/useCase/` + moduleName + `"
-	` + moduleName + `Entity "github.com/gojira/infraestructure/entities/` + moduleName + `"
+	` + moduleName + `Entity "github.com/` + currentDirName + `/infraestructure/entities/` + moduleName + `"
 )
 
 func Create` + strings.Title(strings.ToLower(moduleName)) + `(c *gin.Context) {
@@ -364,7 +365,7 @@ func BaseModuleSimple(moduleName string) {
 import (
 	"github.com/gin-gonic/gin"
 	` + moduleName + `UseCase "github.com/` + currentDirName + `/domain/useCase/` + moduleName + `"
-	_ "github.com/gojira/infraestructure/entities/` + moduleName + `" // Change _ for ` + moduleName + `Entity or something that works for you
+	_ "github.com/` + currentDirName + `/infraestructure/entities/` + moduleName + `" // Change _ for ` + moduleName + `Entity or something that works for you
 )
 
 func Get` + strings.Title(strings.ToLower(moduleName)) + `(c *gin.Context) {
@@ -547,4 +548,141 @@ model Tasks {
 	//Add data to client.go
 	clientBytes := []byte(clientString)
 	ioutil.WriteFile("infraestructure/databases/client.go", clientBytes, 0)
+}
+
+//ADD controller to main.go crud
+func AppendToMainCrud(moduleName string) {
+	dir, err := os.Getwd()
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(dir)
+	var ss []string
+	if runtime.GOOS == "windows" {
+		ss = strings.Split(dir, "\\")
+	} else {
+		ss = strings.Split(dir, "/")
+	}
+
+	currentDirName := ss[len(ss)-1]
+
+	input, err := ioutil.ReadFile("main.go")
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	lines := strings.Split(string(input), "\n")
+
+	for i, line := range lines {
+		if strings.Contains(line, "import (") || strings.Contains(line, "import(") {
+			lines[i] = `import (
+	` + moduleName + `Controller "github.com/` + currentDirName + `/controller/` + moduleName + `"`
+		}
+
+		if strings.Contains(line, "router.Run") {
+			lines[i] = ` //` + moduleName + `
+	router.POST("/` + moduleName + `", ` + moduleName + `Controller.Create` + strings.Title(strings.ToLower(moduleName)) + `)
+	router.GET("/` + moduleName + `", ` + moduleName + `Controller.Get` + strings.Title(strings.ToLower(moduleName)) + `)
+	router.PUT("/` + moduleName + `/:id", ` + moduleName + `Controller.Update` + strings.Title(strings.ToLower(moduleName)) + `)
+	router.DELETE("/` + moduleName + `/:id", ` + moduleName + `Controller.Delete` + strings.Title(strings.ToLower(moduleName)) + `)
+
+` + lines[i] + `
+`
+		}
+
+	}
+
+	output := strings.Join(lines, "\n")
+	err = ioutil.WriteFile("main.go", []byte(output), 0644)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	//format main.go
+	if runtime.GOOS == "windows" {
+		installDependencies := exec.Command("cmd", "/c", "go fmt main.go")
+
+		installDependenciesOut, err := installDependencies.Output()
+		if err != nil {
+			os.Stderr.WriteString(err.Error())
+		}
+		fmt.Println(string(installDependenciesOut))
+	}
+
+	if runtime.GOOS == "linux" {
+		installDependencies := exec.Command("sh", "/c", "go fmt main.go")
+
+		installDependenciesOut, err := installDependencies.Output()
+		if err != nil {
+			os.Stderr.WriteString(err.Error())
+		}
+		fmt.Println(string(installDependenciesOut))
+	}
+}
+
+//ADD controller to main.go simple
+func AppendToMainSimple(moduleName string) {
+	dir, err := os.Getwd()
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(dir)
+	var ss []string
+	if runtime.GOOS == "windows" {
+		ss = strings.Split(dir, "\\")
+	} else {
+		ss = strings.Split(dir, "/")
+	}
+
+	currentDirName := ss[len(ss)-1]
+
+	input, err := ioutil.ReadFile("main.go")
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	lines := strings.Split(string(input), "\n")
+
+	for i, line := range lines {
+		if strings.Contains(line, "import (") || strings.Contains(line, "import(") {
+			lines[i] = `import (
+	` + moduleName + `Controller "github.com/` + currentDirName + `/controller/` + moduleName + `"`
+		}
+
+		if strings.Contains(line, "router.Run") {
+			lines[i] = ` //` + moduleName + `
+	router.GET("/` + moduleName + `", ` + moduleName + `Controller.Get` + strings.Title(strings.ToLower(moduleName)) + `)
+
+` + lines[i] + `
+`
+		}
+
+	}
+
+	output := strings.Join(lines, "\n")
+	err = ioutil.WriteFile("main.go", []byte(output), 0644)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	//format main.go
+	if runtime.GOOS == "windows" {
+		installDependencies := exec.Command("cmd", "/c", "go fmt main.go")
+
+		installDependenciesOut, err := installDependencies.Output()
+		if err != nil {
+			os.Stderr.WriteString(err.Error())
+		}
+		fmt.Println(string(installDependenciesOut))
+	}
+
+	if runtime.GOOS == "linux" {
+		installDependencies := exec.Command("sh", "/c", "go fmt main.go")
+
+		installDependenciesOut, err := installDependencies.Output()
+		if err != nil {
+			os.Stderr.WriteString(err.Error())
+		}
+		fmt.Println(string(installDependenciesOut))
+	}
 }

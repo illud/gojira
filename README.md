@@ -82,9 +82,6 @@ gojira db --client prisma
 ```
 db "github.com/yourProjectName/infraestructure/databases/client.go"
 ```
-# When you create a module dont forget to add the controller to the main.go file, i'm working so it can be added automatically.
-
-
 
 Folder Structure:
 

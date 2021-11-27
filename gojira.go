@@ -56,7 +56,7 @@ func main() {
 	app.Commands = []*cli.Command{
 		{
 			Name:  "new",
-			Usage: "To create a new project use the next command (gojira new --folder yourProjectName) this will generate a new project with example files",
+			Usage: "(gojira new --folder yourProjectName) This will generate a new project with example files",
 			Flags: myFlags,
 			Action: func(c *cli.Context) error {
 				//Project
@@ -78,9 +78,9 @@ func main() {
 				fmt.Print(folderName + "/controller/tasks")
 				fmt.Println(" Ok")
 
-				//Controller/Tasks/task-controller.go
-				os.Create(folderName + "/controller/tasks/task.controller.go")
-				fmt.Print(folderName + "/controller/tasks/task.controller.go")
+				//Controller/Tasks/tasks.controller.go
+				os.Create(folderName + "/controller/tasks/tasks.controller.go")
+				fmt.Print(folderName + "/controller/tasks/tasks.controller.go")
 				fmt.Println(" Ok")
 
 				//Domain
@@ -247,7 +247,7 @@ func main() {
 		},
 		{
 			Name:  "module",
-			Usage: "To create a new module with crud example use the next command (gojira module --generate-crud yourModuleName)",
+			Usage: "(gojira module --generate-crud yourModuleName) This will create a new module with crud example",
 			Flags: myFlags,
 			Action: func(c *cli.Context) error {
 				//module name
@@ -298,12 +298,15 @@ func main() {
 				//Generates module with crud data
 				base.BaseModuleCrud(moduleName)
 
+				//Append controller to main.go file
+				base.AppendToMainCrud(moduleName)
+
 				return nil
 			},
 		},
 		{
 			Name:  "module-simple",
-			Usage: "To create a new module with simple example use the next command (gojira module-simple --generate yourModuleName)",
+			Usage: "(gojira module-simple --generate yourModuleName) This will create a new module with simple example",
 			Flags: myFlags,
 			Action: func(c *cli.Context) error {
 				//module name
@@ -354,12 +357,14 @@ func main() {
 				//Generates module data in file
 				base.BaseModuleSimple(moduleName)
 
+				//Append controller to main.go file
+				base.AppendToMainSimple(moduleName)
 				return nil
 			},
 		},
 		{
 			Name:  "db",
-			Usage: "To create a new db service client use the next command (gojira db --client yourSelection) // yourSelection can be (mysql, gorm or prisma)",
+			Usage: "(gojira db --client yourSelection) This will To create a new db service client, yourSelection can be (mysql, gorm or prisma)",
 			Flags: myFlags,
 			Action: func(c *cli.Context) error {
 				flagName := c.String("client")
