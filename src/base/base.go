@@ -90,7 +90,7 @@ import (
 )
 
 func CreateTasks(taskId string, title string, description string) string {
-	return tasksRepository.CreateTasks(taskId, title, description)
+	return tasksRepository.Create(taskId, title, description)
 }
 
 func GetTasks() string {
@@ -98,7 +98,7 @@ func GetTasks() string {
 }
 
 func UpdateTasks(taskId string, title string) string {
-	return tasksRepository.UpdateTasks(taskId, title)
+	return tasksRepository.Update(taskId, title)
 }
 
 func DeleteTasks(taskId string) string {
@@ -111,7 +111,7 @@ func DeleteTasks(taskId string) string {
 	taskRepositoryString :=
 		`package tasks
 
-func CreateTasks(taskId string, title string, description string) string {
+func Create(taskId string, title string, description string) string {
 	return "task created " + taskId + " " + title + " " + description
 }
 
@@ -119,7 +119,7 @@ func FindAll() string {
 	return "{id: 1, title: 'Task title', description: 'Task description'}"
 }
 
-func UpdateTasks(taskId string, title string) string {
+func Update(taskId string, title string) string {
 	return "task updated " + taskId + " " + title
 }
 
@@ -208,7 +208,27 @@ func ValidateToken(validate string) string {
 
 	// ERRORS
 	errorsString :=
-		`package errors`
+		`package errors
+import (
+	"encoding/json"
+)
+
+type Error struct{
+	Error string 
+	Code int 
+}
+
+func ErrorJson(error string, code int) string {
+	jsondata := &Error{error, code}
+	encodejson, _ := json.Marshal(jsondata)
+	return string(encodejson)
+}
+	
+var BadRequest = ErrorJson("Bad Request", 400)
+var Forbidden = ErrorJson("Forbidden", 403)
+var NotFound = ErrorJson("Not Found", 404)
+var Unauthorized = ErrorJson("Unauthorized", 401)`
+
 	//Add data to errors.go
 	errorsBytes := []byte(errorsString)
 	ioutil.WriteFile(folderName+"/utils/errors/errors.go", errorsBytes, 0)
@@ -291,7 +311,7 @@ import (
 )
 
 func Create` + strings.Title(strings.ToLower(moduleName)) + `(` + moduleName + `Id string, title string) string {
-	return ` + moduleName + `Repository.Create` + strings.Title(strings.ToLower(moduleName)) + `(` + moduleName + `Id, title)
+	return ` + moduleName + `Repository.Create(` + moduleName + `Id, title)
 }
 
 func Get` + strings.Title(strings.ToLower(moduleName)) + `() string {
@@ -299,7 +319,7 @@ func Get` + strings.Title(strings.ToLower(moduleName)) + `() string {
 }
 
 func Update` + strings.Title(strings.ToLower(moduleName)) + `(` + moduleName + `Id string, title string) string {
-	return ` + moduleName + `Repository.Update` + strings.Title(strings.ToLower(moduleName)) + `(` + moduleName + `Id, title)
+	return ` + moduleName + `Repository.Update(` + moduleName + `Id, title)
 }
 
 func Delete` + strings.Title(strings.ToLower(moduleName)) + `(` + moduleName + `Id string) string {
@@ -312,7 +332,7 @@ func Delete` + strings.Title(strings.ToLower(moduleName)) + `(` + moduleName + `
 	repositoryString :=
 		`package ` + moduleName + `
 
-func Create` + strings.Title(strings.ToLower(moduleName)) + `(` + moduleName + `Id string, title string) string {
+func Create(` + moduleName + `Id string, title string) string {
 	return "` + moduleName + ` created " + ` + moduleName + `Id + " " + title
 }
 
@@ -320,7 +340,7 @@ func FindAll() string {
 	return "{id: 1, title: '` + moduleName + ` title'}"
 }
 
-func Update` + strings.Title(strings.ToLower(moduleName)) + `(` + moduleName + `Id string, title string) string {
+func Update(` + moduleName + `Id string, title string) string {
 	return "` + moduleName + ` updated " + ` + moduleName + `Id + " " + title
 }
 
