@@ -1,6 +1,8 @@
 # Gojira
 
 ![](https://raw.githubusercontent.com/saturnavt/eskolvar.github.io/main/assets/img/gojira.png)
+
+[![Test Status](https://github.com/saturnavt/gojira/actions/workflows/go.yml/badge.svg)](https://github.com/saturnavt/gojira/actions/workflows/go.yml/badge.svg)
 ## Create project with Clean Architecture folder structure
 
 \
