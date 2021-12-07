@@ -3,6 +3,7 @@
 ![](https://raw.githubusercontent.com/saturnavt/eskolvar.github.io/main/assets/img/gojira.png)
 
 [![Test Status](https://github.com/saturnavt/gojira/actions/workflows/go.yml/badge.svg)](https://github.com/saturnavt/gojira/actions/workflows/go.yml/badge.svg)
+[![GoDoc](https://pkg.go.dev/badge/github.com/saturnavt/gojira?status.svg)](https://pkg.go.dev/github.com/saturnavt/gojira?tab=doc)
 ## Create project with Clean Architecture folder structure
 
 \
