@@ -67,7 +67,7 @@ func UpdateTasks(c *gin.Context) {
 	taskId := c.Param("id")
 
 	c.JSON(200, gin.H{
-		"message": tasksUseCase.UpdateTasks(taskId, task.Title),
+		"message": tasksUseCase.UpdateTasks(taskId, task.Title, task.Description),
 	})
 }
 
@@ -93,12 +93,12 @@ func CreateTasks(taskId string, title string, description string) string {
 	return tasksRepository.Create(taskId, title, description)
 }
 
-func GetTasks() string {
+func GetTasks() interface{} {
 	return tasksRepository.FindAll()
 }
 
-func UpdateTasks(taskId string, title string) string {
-	return tasksRepository.Update(taskId, title)
+func UpdateTasks(taskId string, title string, description string) string {
+	return tasksRepository.Update(taskId, title, description)
 }
 
 func DeleteTasks(taskId string) string {
@@ -111,20 +111,38 @@ func DeleteTasks(taskId string) string {
 	taskRepositoryString :=
 		`package tasks
 
+import (
+	tasksEntity "github.com/` + folderName + `/infraestructure/entities/tasks"
+)
+
+var tasks []tasksEntity.Task
+
 func Create(taskId string, title string, description string) string {
-	return "task created " + taskId + " " + title + " " + description
+	tasks = append(tasks, tasksEntity.Task{Id: taskId, Title: title, Description: description})
+	return "Task created"
 }
 
-func FindAll() string {
-	return "{id: 1, title: 'Task title', description: 'Task description'}"
+func FindAll() interface{} {
+	return tasks
 }
 
-func Update(taskId string, title string) string {
-	return "task updated " + taskId + " " + title
+func Update(taskId string, title string, description string) string {
+	for i := 0; i < len(tasks); i++ {
+		if tasks[i].Id == taskId {
+			tasks[i].Title = title
+			tasks[i].Description = description
+		}
+	}
+	return "Task updated"
 }
 
 func Delete(taskId string) string {
-	return "task deleted " + taskId
+	for i := 0; i < len(tasks); i++ {
+		if tasks[i].Id == taskId {
+			tasks = append(tasks[:i], tasks[i+1:]...)
+		}
+	}
+	return "Task deleted"
 }`
 	taskRepositoryBytes := []byte(taskRepositoryString)
 	ioutil.WriteFile(folderName+"/infraestructure/repository/tasks/tasks.repository.go", taskRepositoryBytes, 0)
@@ -314,7 +332,7 @@ func Create` + strings.Title(strings.ToLower(moduleName)) + `(` + moduleName + `
 	return ` + moduleName + `Repository.Create(` + moduleName + `Id, title)
 }
 
-func Get` + strings.Title(strings.ToLower(moduleName)) + `() string {
+func Get` + strings.Title(strings.ToLower(moduleName)) + `() interface{} {
 	return ` + moduleName + `Repository.FindAll()
 }
 
@@ -332,20 +350,37 @@ func Delete` + strings.Title(strings.ToLower(moduleName)) + `(` + moduleName + `
 	repositoryString :=
 		`package ` + moduleName + `
 
+import (
+	` + moduleName + `Entity "github.com/` + currentDirName + `/infraestructure/entities/` + moduleName + `"
+)
+
+var ` + moduleName + ` []` + moduleName + `Entity.` + strings.Title(moduleName) + `
+
 func Create(` + moduleName + `Id string, title string) string {
-	return "` + moduleName + ` created " + ` + moduleName + `Id + " " + title
+	` + moduleName + ` = append(` + moduleName + `, ` + moduleName + `Entity.` + strings.Title(moduleName) + `{Id: ` + moduleName + `Id, Title: title})
+	return "` + strings.Title(moduleName) + ` created"
 }
 
-func FindAll() string {
-	return "{id: 1, title: '` + moduleName + ` title'}"
+func FindAll() interface{} {
+	return ` + moduleName + `
 }
 
 func Update(` + moduleName + `Id string, title string) string {
-	return "` + moduleName + ` updated " + ` + moduleName + `Id + " " + title
+	for i := 0; i < len(` + moduleName + `); i++ {
+		if ` + moduleName + `[i].Id == ` + moduleName + `Id {
+			` + moduleName + `[i].Title = title
+		}
+	}
+	return "` + strings.Title(moduleName) + ` updated"
 }
 
 func Delete(` + moduleName + `Id string) string {
-	return "` + moduleName + ` deleted " + ` + moduleName + `Id
+	for i := 0; i < len(` + moduleName + `); i++ {
+		if ` + moduleName + `[i].Id == ` + moduleName + `Id {
+			` + moduleName + ` = append(` + moduleName + `[:i], ` + moduleName + `[i+1:]...)
+		}
+	}
+	return "` + strings.Title(moduleName) + ` deleted"
 }`
 	repositoryBytes := []byte(repositoryString)
 	ioutil.WriteFile("infraestructure/repository/"+moduleName+"/"+moduleName+".repository.go", repositoryBytes, 0)
