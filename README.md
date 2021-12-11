@@ -87,7 +87,7 @@ gojira db --client prisma
 ### to use import the service in your repository like for example:
 
 ```
-db "github.com/yourProjectName/infraestructure/databases/client.go"
+db "github.com/yourProjectName/infraestructure/databases"
 ```
 
 Folder Structure:
