@@ -34,8 +34,11 @@ Install the dependencies.
 ```sh
 go get github.com/saturnavt/gojira
 ```
+Or
 
-
+```sh
+go install github.com/saturnavt/gojira@latest
+```
 ## How to use
 
 In your terminal type to see all avaible commands:
