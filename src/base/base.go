@@ -480,7 +480,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-var CLIENT = DbConnection()
+var Client = DbConnection()
 
 func DbConnection() *sql.DB {
 	//CONNECTION
@@ -505,7 +505,7 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-var CLIENT = DbConnection()
+var Client = DbConnection()
 
 func DbConnection() *gorm.DB {
 	//CONNECTION
@@ -593,7 +593,7 @@ model Tasks {
 	createdAt DateTime @default(now())
 	updatedAt DateTime @updatedAt
 	title     String
-	desc      String
+	description String
 }`
 
 		prismaSChemaBytes := []byte(prismaString)

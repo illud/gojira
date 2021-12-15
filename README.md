@@ -83,11 +83,57 @@ Prisma - to learn more visit (https://github.com/prisma/prisma-client-go)
 gojira db --client prisma
 ```
 
-### This will generate a database connection in infraestructure/databases/client.go
-### to use import the service in your repository like for example:
+## This will generate a database connection in infraestructure/databases/client.go
+### For Mysql and Gorm import the service in your repository like for example:
 
-```
+```go
 db "github.com/yourProjectName/infraestructure/databases"
+```
+
+Example for Mysql:
+
+```go
+// Insert new tasks
+res, err := db.Client.Exec("INSERT INTO tasks VALUES(DEFAULT, 'Title', 'Desc')")
+if err != nil {
+  fmt.Println("ERROR: ", err)
+}
+fmt.Println(res)
+```
+
+Example for Gorm:
+
+```go
+// Insert new tasks
+err := db.Client.Save(&tasksEntity.Task{
+  Title:       "TEST",
+  Description: "This is a description",
+})
+
+if err != nil {
+  fmt.Println(err)
+}
+```
+
+For prisma import:
+```go
+dbClient "github.com/yourProjectName/infraestructure/databases"
+"github.com/yourProjectName/infraestructure/databases/prisma/db"
+```
+Example for prisma:
+```go
+// Insert new tasks
+createdTask, err := dbClient.Client.Tasks.CreateOne(
+  db.Tasks.Title.Set("Hi from Prisma!"),
+  db.Tasks.Description.Set("Prisma is a database toolkit and makes databases easy."),
+).Exec(dbClient.Context)
+
+if err != nil {
+  fmt.Println(err)
+}
+
+result, _ := json.MarshalIndent(createdTask, "", "  ")
+fmt.Printf("created task: %s\n", result)
 ```
 
 Folder Structure:
