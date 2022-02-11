@@ -276,7 +276,7 @@ var Unauthorized = ErrorJson("Unauthorized", 401)`
 
 	// getTasks_test.go
 	tasksTestString :=
-		`package notes_test
+		`package tasks_test
 
 import (
 	"bytes"
@@ -291,7 +291,7 @@ import (
 	token "github.com/` + folderName + `/utils/services/jwt"
 )
 
-func TestGetNotesAllById(t *testing.T) {
+func TestGetTasks(t *testing.T) {
 	tokenData := token.GenerateToken("test") //Your token data
 
 	router := router.Router()
@@ -456,7 +456,7 @@ type ` + strings.Title(strings.ToLower(moduleName)) + ` struct {
 
 	// TEST
 	testString :=
-		`package notes_test
+		`package ` + moduleName + `_test
 
 import (
 	"bytes"
@@ -567,7 +567,7 @@ type ` + strings.Title(strings.ToLower(moduleName)) + ` struct {
 
 	// TEST
 	testString :=
-		`package notes_test
+		`package ` + moduleName + `_test
 
 import (
 	"bytes"
