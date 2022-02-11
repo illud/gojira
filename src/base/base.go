@@ -16,25 +16,41 @@ func BaseData(folderName string) {
 		`package main
 
 import (
-	"github.com/gin-contrib/cors"
-	"github.com/gin-gonic/gin"
-	tasksController "github.com/` + folderName + `/controller/tasks"
+	router "github.com/` + folderName + `/routing"
 )
 
 func main() {
-	router := gin.Default()
+	router.Router().Run(":5000")
+}`
+	mainBytes := []byte(mainString)
+	ioutil.WriteFile(folderName+"/main.go", mainBytes, 0)
+
+	//Add data to routing.go
+	routingString :=
+		`package routing
+
+import (
+	tasksController "github.com/` + folderName + `/controller/tasks"
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
+)
+func Router() *gin.Engine {
+	//this sets gin to release mode
+	gin.SetMode(gin.ReleaseMode)
+
+	router := gin.New()
+
 	router.Use(cors.Default())
 
-	//tasks
 	router.POST("/tasks", tasksController.CreateTasks)
 	router.GET("/tasks", tasksController.GetTasks)
 	router.PUT("/tasks/:id", tasksController.UpdateTasks)
 	router.DELETE("/tasks/:id", tasksController.DeleteTasks)
-	
-	router.Run(":5000")
+
+	return router
 }`
-	mainBytes := []byte(mainString)
-	ioutil.WriteFile(folderName+"/main.go", mainBytes, 0)
+	routingBytes := []byte(routingString)
+	ioutil.WriteFile(folderName+"/routing/routing.go", routingBytes, 0)
 
 	//Add data to task-controller.go
 	taskControllerString :=
@@ -257,6 +273,48 @@ var Unauthorized = ErrorJson("Unauthorized", 401)`
 	//Add data to client.go
 	clientBytes := []byte(clientString)
 	ioutil.WriteFile(folderName+"/infraestructure/databases/client.go", clientBytes, 0)
+
+	// getTasks_test.go
+	tasksTestString :=
+		`package notes_test
+
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"net/http"
+	"net/http/httptest"
+	"testing"
+
+	"github.com/stretchr/testify/assert"
+	router "github.com/` + folderName + `/routing"
+	token "github.com/` + folderName + `/utils/services/jwt"
+)
+
+func TestGetNotesAllById(t *testing.T) {
+	tokenData := token.GenerateToken("test") //Your token data
+
+	router := router.Router()
+
+	w := httptest.NewRecorder()
+
+	values := map[string]interface{}{"token": tokenData} // this is the body in case you make a post, put
+	jsonValue, _ := json.Marshal(values)
+
+	req, _ := http.NewRequest("GET", "/tasks", bytes.NewBuffer(jsonValue))
+	req.Header.Set("Content-Type", "application/json")
+	router.ServeHTTP(w, req) 
+
+	expected := ` + "`" + `{"message":null}` + "`" + ` // Your expected data inside backquote 
+	expectedStatus := "200 OK"
+
+	assert.Contains(t, w.Body.String(), expected, "🔴 Expected %v 🔴 got %v", expected, w.Body.String())
+	assert.Contains(t, w.Result().Status, expectedStatus, "🔴 Expected %v 🔴 got %v", expectedStatus, w.Result().Status)
+	fmt.Println("🟢")
+}`
+	//Add data to jwt.go
+	tasksTestBytes := []byte(tasksTestString)
+	ioutil.WriteFile(folderName+"/test/tasks/getTasks_test.go", tasksTestBytes, 0)
 }
 
 func BaseModuleCrud(moduleName string) {
@@ -395,6 +453,48 @@ type ` + strings.Title(strings.ToLower(moduleName)) + ` struct {
 }`
 	entitiesBytes := []byte(entitiesString)
 	ioutil.WriteFile("infraestructure/entities/"+moduleName+"/"+moduleName+".entity.go", entitiesBytes, 0)
+
+	// TEST
+	testString :=
+		`package notes_test
+
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"net/http"
+	"net/http/httptest"
+	"testing"
+
+	"github.com/stretchr/testify/assert"
+	router "github.com/` + currentDirName + `/routing"
+	token "github.com/` + currentDirName + `/utils/services/jwt"
+)
+
+func TestGet` + strings.Title(moduleName) + `(t *testing.T) {
+	tokenData := token.GenerateToken("test") //Your token data
+
+	router := router.Router()
+
+	w := httptest.NewRecorder()
+
+	values := map[string]interface{}{"token": tokenData} // this is the body in case you make a post, put
+	jsonValue, _ := json.Marshal(values)
+
+	req, _ := http.NewRequest("GET", "/` + moduleName + `", bytes.NewBuffer(jsonValue))
+	req.Header.Set("Content-Type", "application/json")
+	router.ServeHTTP(w, req) 
+
+	expected := ` + "`" + `{"message":null}` + "`" + ` // Your expected data inside backquote 
+	expectedStatus := "200 OK"
+
+	assert.Contains(t, w.Body.String(), expected, "🔴 Expected %v 🔴 got %v", expected, w.Body.String())
+	assert.Contains(t, w.Result().Status, expectedStatus, "🔴 Expected %v 🔴 got %v", expectedStatus, w.Result().Status)
+	fmt.Println("🟢")
+}`
+	//Add data to test
+	testBytes := []byte(testString)
+	ioutil.WriteFile("test/"+moduleName+"/get"+strings.Title(moduleName)+"_test.go", testBytes, 0)
 }
 
 func BaseModuleSimple(moduleName string) {
@@ -464,6 +564,48 @@ type ` + strings.Title(strings.ToLower(moduleName)) + ` struct {
 }`
 	entitiesBytes := []byte(entitiesString)
 	ioutil.WriteFile("infraestructure/entities/"+moduleName+"/"+moduleName+".entity.go", entitiesBytes, 0)
+
+	// TEST
+	testString :=
+		`package notes_test
+
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"net/http"
+	"net/http/httptest"
+	"testing"
+
+	"github.com/stretchr/testify/assert"
+	router "github.com/` + currentDirName + `/routing"
+	token "github.com/` + currentDirName + `/utils/services/jwt"
+)
+
+func TestGet` + strings.Title(moduleName) + `(t *testing.T) {
+	tokenData := token.GenerateToken("test") //Your token data
+
+	router := router.Router()
+
+	w := httptest.NewRecorder()
+
+	values := map[string]interface{}{"token": tokenData} // this is the body in case you make a post, put
+	jsonValue, _ := json.Marshal(values)
+
+	req, _ := http.NewRequest("GET", "/` + moduleName + `", bytes.NewBuffer(jsonValue))
+	req.Header.Set("Content-Type", "application/json")
+	router.ServeHTTP(w, req) 
+
+	expected := ` + "`" + `{id: 1, title: '` + moduleName + ` title'}` + "`" + ` // Your expected data inside backquote 
+	expectedStatus := "200 OK"
+
+	assert.Contains(t, w.Body.String(), expected, "🔴 Expected %v 🔴 got %v", expected, w.Body.String())
+	assert.Contains(t, w.Result().Status, expectedStatus, "🔴 Expected %v 🔴 got %v", expectedStatus, w.Result().Status)
+	fmt.Println("🟢")
+}`
+	//Add data to test
+	testBytes := []byte(testString)
+	ioutil.WriteFile("test/"+moduleName+"/get"+strings.Title(moduleName)+"_test.go", testBytes, 0)
 }
 
 func BaseDbClient(clientName string) {
@@ -605,8 +747,8 @@ model Tasks {
 	ioutil.WriteFile("infraestructure/databases/client.go", clientBytes, 0)
 }
 
-//ADD controller to main.go crud
-func AppendToMainCrud(moduleName string) {
+//ADD controller to routing.go crud
+func AppendToRoutingCrud(moduleName string) {
 	dir, err := os.Getwd()
 	if err != nil {
 		log.Fatal(err)
@@ -621,7 +763,7 @@ func AppendToMainCrud(moduleName string) {
 
 	currentDirName := ss[len(ss)-1]
 
-	input, err := ioutil.ReadFile("main.go")
+	input, err := ioutil.ReadFile("routing/routing.go")
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -634,7 +776,7 @@ func AppendToMainCrud(moduleName string) {
 	` + moduleName + `Controller "github.com/` + currentDirName + `/controller/` + moduleName + `"`
 		}
 
-		if strings.Contains(line, "router.Run") {
+		if strings.Contains(line, "return router") {
 			lines[i] = ` //` + moduleName + `
 	router.POST("/` + moduleName + `", ` + moduleName + `Controller.Create` + strings.Title(strings.ToLower(moduleName)) + `)
 	router.GET("/` + moduleName + `", ` + moduleName + `Controller.Get` + strings.Title(strings.ToLower(moduleName)) + `)
@@ -648,14 +790,14 @@ func AppendToMainCrud(moduleName string) {
 	}
 
 	output := strings.Join(lines, "\n")
-	err = ioutil.WriteFile("main.go", []byte(output), 0644)
+	err = ioutil.WriteFile("routing/routing.go", []byte(output), 0644)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
 	//format main.go
 	if runtime.GOOS == "windows" {
-		installDependencies := exec.Command("cmd", "/c", "go fmt main.go")
+		installDependencies := exec.Command("cmd", "/c", "go fmt routing/routing.go")
 
 		installDependenciesOut, err := installDependencies.Output()
 		if err != nil {
@@ -665,7 +807,7 @@ func AppendToMainCrud(moduleName string) {
 	}
 
 	if runtime.GOOS == "linux" {
-		installDependencies := exec.Command("sh", "/c", "go fmt main.go")
+		installDependencies := exec.Command("sh", "/c", "go fmt routing/routing.go")
 
 		installDependenciesOut, err := installDependencies.Output()
 		if err != nil {
@@ -675,8 +817,8 @@ func AppendToMainCrud(moduleName string) {
 	}
 }
 
-//ADD controller to main.go simple
-func AppendToMainSimple(moduleName string) {
+//ADD controller to routing.go simple
+func AppendToRoutingSimple(moduleName string) {
 	dir, err := os.Getwd()
 	if err != nil {
 		log.Fatal(err)
@@ -691,7 +833,7 @@ func AppendToMainSimple(moduleName string) {
 
 	currentDirName := ss[len(ss)-1]
 
-	input, err := ioutil.ReadFile("main.go")
+	input, err := ioutil.ReadFile("routing/routing.go")
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -704,7 +846,7 @@ func AppendToMainSimple(moduleName string) {
 	` + moduleName + `Controller "github.com/` + currentDirName + `/controller/` + moduleName + `"`
 		}
 
-		if strings.Contains(line, "router.Run") {
+		if strings.Contains(line, "return router") {
 			lines[i] = ` //` + moduleName + `
 	router.GET("/` + moduleName + `", ` + moduleName + `Controller.Get` + strings.Title(strings.ToLower(moduleName)) + `)
 
@@ -715,14 +857,14 @@ func AppendToMainSimple(moduleName string) {
 	}
 
 	output := strings.Join(lines, "\n")
-	err = ioutil.WriteFile("main.go", []byte(output), 0644)
+	err = ioutil.WriteFile("routing/routing.go", []byte(output), 0644)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
 	//format main.go
 	if runtime.GOOS == "windows" {
-		installDependencies := exec.Command("cmd", "/c", "go fmt main.go")
+		installDependencies := exec.Command("cmd", "/c", "go fmt routing/routing.go")
 
 		installDependenciesOut, err := installDependencies.Output()
 		if err != nil {
@@ -732,7 +874,7 @@ func AppendToMainSimple(moduleName string) {
 	}
 
 	if runtime.GOOS == "linux" {
-		installDependencies := exec.Command("sh", "/c", "go fmt main.go")
+		installDependencies := exec.Command("sh", "/c", "go fmt routing/routing.go")
 
 		installDependenciesOut, err := installDependencies.Output()
 		if err != nil {

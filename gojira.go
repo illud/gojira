@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/exec"
 	"runtime"
+	"strings"
 
 	base "github.com/saturnavt/gojira/src/base"
 	"github.com/urfave/cli/v2"
@@ -66,6 +67,14 @@ func main() {
 				fmt.Println(" Ok")
 				os.Create(folderName + "/main.go")
 				fmt.Print(folderName + "/main.go")
+				fmt.Println(" Ok")
+
+				//Routing
+				os.MkdirAll(folderName+"/routing", os.ModePerm)
+				fmt.Print(folderName + "/routing")
+				fmt.Println(" Ok")
+				os.Create(folderName + "/routing/routing.go")
+				fmt.Print(folderName + "/routing/routing.go")
 				fmt.Println(" Ok")
 
 				//Controller
@@ -188,6 +197,20 @@ func main() {
 				fmt.Print(folderName + "/utils/services/bcrypt/bcrypt.go")
 				fmt.Println(" Ok")
 
+				//TEST FOLDER
+				os.MkdirAll(folderName+"/test", os.ModePerm)
+				fmt.Print(folderName + "/test")
+				fmt.Println(" Ok")
+
+				//TEST TASKS FOLDER
+				os.MkdirAll(folderName+"/test/tasks", os.ModePerm)
+				fmt.Print(folderName + "/test/tasks")
+				fmt.Println(" Ok")
+
+				os.Create(folderName + "/test/tasks/getTasks_test.go")
+				fmt.Print(folderName + "/test/tasks/getTasks_test.go")
+				fmt.Println(" Ok")
+
 				//Create base files data
 				base.BaseData(folderName)
 
@@ -211,6 +234,16 @@ func main() {
 						os.Stderr.WriteString(err.Error())
 					}
 					fmt.Println(string(installDependenciesOut))
+
+					//INSTALL TEST DEPENDENCIES
+					installTestDependencies := exec.Command("cmd", "/c", "go get -t ./...")
+					installTestDependencies.Dir = folderName
+
+					installTestDependenciesOut, err := installTestDependencies.Output()
+					if err != nil {
+						os.Stderr.WriteString(err.Error())
+					}
+					fmt.Println(string(installTestDependenciesOut))
 				}
 
 				if runtime.GOOS == "linux" {
@@ -233,6 +266,16 @@ func main() {
 						os.Stderr.WriteString(err.Error())
 					}
 					fmt.Println(string(installDependenciesOut))
+
+					//INSTALL TEST DEPENDENCIES
+					installTestDependencies := exec.Command("cmd", "/c", "go get -t ./...")
+					installTestDependencies.Dir = folderName
+
+					installTestDependenciesOut, err := installTestDependencies.Output()
+					if err != nil {
+						os.Stderr.WriteString(err.Error())
+					}
+					fmt.Println(string(installTestDependenciesOut))
 				}
 
 				//Display usage
@@ -295,11 +338,20 @@ func main() {
 				fmt.Print("infraestructure/entities/" + moduleName + "/" + moduleName + ".entity.go")
 				fmt.Println(" Ok")
 
+				//TEST FOLDER
+				os.MkdirAll("test/"+moduleName, os.ModePerm)
+				fmt.Print("test/" + moduleName)
+				fmt.Println(" Ok")
+
+				os.Create("test/" + moduleName + "/get" + strings.Title(moduleName) + "_test.go")
+				fmt.Print("test/" + moduleName + "/get" + strings.Title(moduleName) + "_test.go")
+				fmt.Println(" Ok")
+
 				//Generates module with crud data
 				base.BaseModuleCrud(moduleName)
 
-				//Append controller to main.go file
-				base.AppendToMainCrud(moduleName)
+				//Append controller to routing.go file
+				base.AppendToRoutingCrud(moduleName)
 
 				return nil
 			},
@@ -354,11 +406,20 @@ func main() {
 				fmt.Print("infraestructure/entities/" + moduleName + "/" + moduleName + ".entity.go")
 				fmt.Println(" Ok")
 
+				//TEST FOLDER
+				os.MkdirAll("test/"+moduleName, os.ModePerm)
+				fmt.Print("test/" + moduleName)
+				fmt.Println(" Ok")
+
+				os.Create("test/" + moduleName + "/get" + strings.Title(moduleName) + "_test.go")
+				fmt.Print("test/" + moduleName + "/get" + strings.Title(moduleName) + "_test.go")
+				fmt.Println(" Ok")
+
 				//Generates module data in file
 				base.BaseModuleSimple(moduleName)
 
-				//Append controller to main.go file
-				base.AppendToMainSimple(moduleName)
+				//Append controller to routing.go file
+				base.AppendToRoutingSimple(moduleName)
 				return nil
 			},
 		},

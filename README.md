@@ -24,6 +24,7 @@ Gojira is a cli tool to create clean architecture app for you including gin-goni
   - Gorm
   - Prisma
 - Example tasks api
+- Testing (Auto generate test example when creating a new modules)
 
 ## Installation
 
@@ -136,6 +137,11 @@ result, _ := json.MarshalIndent(createdTask, "", "  ")
 fmt.Printf("created task: %s\n", result)
 ```
 
+Testing: To run tests use
+```shell
+go test -v ./...
+```
+
 Folder Structure:
 
 ```
@@ -173,20 +179,33 @@ Folder Structure:
 |                      |-tasks.repository.go --> This is and example repository file(Create your own repositories)
 |                       
 |-- utils
-        |
-        |-errors
-        |    |
-        |    |-errros.go
-        |
-        |-services
-                |
-                |-jwt
-                |   |
-                |   |-jwt.go
-                |
-                |-bcrypt
-                    |
-                    |-bcrypt.go
+|       |
+|       |-errors
+|       |    |
+|       |    |-errros.go
+|       |
+|       |-services
+|               |
+|               |-jwt
+|               |   |
+|               |   |-jwt.go
+|               |
+|               |-bcrypt
+|                   |
+|                   |-bcrypt.go
+|
+|-- routing
+|       |
+|       |-routing.go --> This is where al your routes lives
+|
+|
+|-- test --> This is the test folder
+|       |
+|       |-tasks --> This is a test example folder
+|       |   |
+|       |   |-getTasks_test.go --> This is a test example file
+|       |
+|       |-other test folder --> your other test folder
 ```
 
 ## License
