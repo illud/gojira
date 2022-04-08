@@ -614,7 +614,7 @@ func BaseDbClient(clientName string) {
 	if clientName == "mysql" {
 		clientString =
 			`package databases
-		
+
 import (
 	"database/sql"
 	"fmt"
@@ -622,18 +622,32 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-var Client = DbConnection()
+var (
+	// db The database connection
+	db *sql.DB
+)
 
-func DbConnection() *sql.DB {
+// Connect to database
+func Connect() {
 	//CONNECTION
-	db, err := sql.Open("mysql", "databaseUsername:databasePassword@tcp(localhost:3306)/yourDatabaseTablename")
-	
+	dbCon, err := sql.Open("mysql", "databaseUsername:databasePassword@tcp(localhost:3306)/yourDatabaseTablename")
+
 	if err != nil {
 		fmt.Println("DATABASE CONNECTION ERROR: ", err)
 	}
+
+	// defer db.Close()
+	db = dbCon
 	fmt.Println("CONNECTED")
+}
+
+var Client = DbConnection()
+
+func DbConnection() *sql.DB {
 	return db
 }`
+		//Adds db conection to main.go
+		AppendDbConnectionToMain()
 	}
 
 	if clientName == "gorm" {
@@ -647,21 +661,31 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-var Client = DbConnection()
+var (
+	// db The database connection
+	db *gorm.DB
+)
 
-func DbConnection() *gorm.DB {
+// Connect to database
+func Connect() {
 	//CONNECTION
-	db, err := gorm.Open("mysql", "databaseUsername:databasePassword@tcp(127.0.0.1:3306)/yourDatabaseTablename?charset=utf8mb4&parseTime=True&loc=Local")
+	dbCon, err := gorm.Open("mysql", "databaseUsername:databasePassword@tcp(127.0.0.1:3306)/yourDatabaseTablename?charset=utf8mb4&parseTime=True&loc=Local")
 
 	if err != nil {
 		fmt.Println("DATABASE CONNECTION ERROR: ", err)
 	}
-	// sqlDB, err := db.DB()
-	// defer sqlDB.Close()
-	// defer db.Close()
+
+	db = dbCon
 	fmt.Println("CONNECTED")
+}
+
+var Client = DbConnection()
+
+func DbConnection() *gorm.DB {
 	return db
 }`
+		//Adds db conection to main.go
+		AppendDbConnectionToMain()
 	}
 
 	if clientName == "prisma" {
@@ -682,7 +706,7 @@ func DbConnection() *gorm.DB {
 
 		clientString =
 			`package databases
-		
+
 import (
 	"fmt"
 
@@ -690,9 +714,12 @@ import (
 	"golang.org/x/net/context"
 )
 
-var Client = DB()
+var (
+	// db The database connection
+	prismaDdb *db.PrismaClient
+)
 
-func DB() *db.PrismaClient {
+func Connect(){
 	client := db.NewClient()
 	if err := client.Prisma.Connect(); err != nil {
 		fmt.Println(err)
@@ -703,8 +730,14 @@ func DB() *db.PrismaClient {
 	// 		panic(err)
 	// 	}
 	// }()
+	prismaDdb = client
+	fmt.Println("CONNECTED")
+}
 
-	return client
+var Client = DbConnection()
+
+func DbConnection() *db.PrismaClient {
+	return prismaDdb
 }
 
 var Context = ContextService()
@@ -713,6 +746,9 @@ func ContextService() context.Context {
 	ctx := context.Background()
 	return ctx
 }`
+
+		//Adds db conection to main.go
+		AppendDbConnectionToMain()
 
 		//Insertdata into prisma.schema
 		prismaString :=
@@ -875,6 +911,72 @@ func AppendToRoutingSimple(moduleName string) {
 
 	if runtime.GOOS == "linux" {
 		installDependencies := exec.Command("sh", "/c", "go fmt routing/routing.go")
+
+		installDependenciesOut, err := installDependencies.Output()
+		if err != nil {
+			os.Stderr.WriteString(err.Error())
+		}
+		fmt.Println(string(installDependenciesOut))
+	}
+}
+
+//ADD db conection to main.go
+func AppendDbConnectionToMain() {
+	dir, err := os.Getwd()
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(dir)
+	var ss []string
+	if runtime.GOOS == "windows" {
+		ss = strings.Split(dir, "\\")
+	} else {
+		ss = strings.Split(dir, "/")
+	}
+
+	currentDirName := ss[len(ss)-1]
+
+	input, err := ioutil.ReadFile("main.go")
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	lines := strings.Split(string(input), "\n")
+
+	for i, line := range lines {
+		if strings.Contains(line, "import (") || strings.Contains(line, "import(") {
+			lines[i] = `import (
+	db "github.com/` + currentDirName + `/infraestructure/databases"`
+		}
+
+		if strings.Contains(line, "router.Router().Run") {
+			lines[i] = ` //Connect to database
+			db.Connect()
+
+` + lines[i] + ``
+		}
+
+	}
+
+	output := strings.Join(lines, "\n")
+	err = ioutil.WriteFile("main.go", []byte(output), 0644)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	//format main.go
+	if runtime.GOOS == "windows" {
+		installDependencies := exec.Command("cmd", "/c", "go fmt main.go")
+
+		installDependenciesOut, err := installDependencies.Output()
+		if err != nil {
+			os.Stderr.WriteString(err.Error())
+		}
+		fmt.Println(string(installDependenciesOut))
+	}
+
+	if runtime.GOOS == "linux" {
+		installDependencies := exec.Command("sh", "/c", "go fmt main.go")
 
 		installDependenciesOut, err := installDependencies.Output()
 		if err != nil {

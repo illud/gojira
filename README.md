@@ -85,6 +85,9 @@ gojira db --client prisma
 ```
 
 ## This will generate a database connection in infraestructure/databases/client.go
+
+<br/>
+
 ### For Mysql and Gorm import the service in your repository like for example:
 
 ```go
@@ -92,7 +95,6 @@ db "github.com/yourProjectName/infraestructure/databases"
 ```
 
 Example for Mysql:
-
 ```go
 // Insert new tasks
 res, err := db.Client.Exec("INSERT INTO tasks VALUES(DEFAULT, 'Title', 'Desc')")
@@ -101,9 +103,11 @@ if err != nil {
 }
 fmt.Println(res)
 ```
+To learn more visit (https://github.com/go-sql-driver/mysql)
+
+<br/>
 
 Example for Gorm:
-
 ```go
 // Insert new tasks
 err := db.Client.Save(&tasksEntity.Task{
@@ -115,6 +119,9 @@ if err != nil {
   fmt.Println(err)
 }
 ```
+To learn more visit (https://github.com/jinzhu/gorm)
+
+<br/>
 
 For prisma import:
 ```go
@@ -136,6 +143,9 @@ if err != nil {
 result, _ := json.MarshalIndent(createdTask, "", "  ")
 fmt.Printf("created task: %s\n", result)
 ```
+To learn more visit (https://github.com/prisma/prisma-client-go)
+
+<br/>
 
 Testing: To run tests use
 ```shell
