@@ -343,36 +343,36 @@ import (
 	` + moduleName + `Entity "github.com/` + currentDirName + `/infraestructure/entities/` + moduleName + `"
 )
 
-func Create` + strings.Title(strings.ToLower(moduleName)) + `(c *gin.Context) {
-	var ` + moduleName + ` ` + moduleName + `Entity.` + strings.Title(strings.ToLower(moduleName)) + `
+func Create` + strings.Title(moduleName) + `(c *gin.Context) {
+	var ` + moduleName + ` ` + moduleName + `Entity.` + strings.Title(moduleName) + `
 	c.ShouldBindJSON(&` + moduleName + `)
 
 	c.JSON(200, gin.H{
-		"message": ` + moduleName + `UseCase.Create` + strings.Title(strings.ToLower(moduleName)) + `(` + moduleName + `.Id, ` + moduleName + `.Title),
+		"message": ` + moduleName + `UseCase.Create` + strings.Title(moduleName) + `(` + moduleName + `.Id, ` + moduleName + `.Title),
 	})
 }
 
-func Get` + strings.Title(strings.ToLower(moduleName)) + `(c *gin.Context) {
+func Get` + strings.Title(moduleName) + `(c *gin.Context) {
 	c.JSON(200, gin.H{
-		"message": ` + moduleName + `UseCase.Get` + strings.Title(strings.ToLower(moduleName)) + `(),
+		"message": ` + moduleName + `UseCase.Get` + strings.Title(moduleName) + `(),
 	})
 }
 
-func Update` + strings.Title(strings.ToLower(moduleName)) + `(c *gin.Context) {
-	var ` + moduleName + ` ` + moduleName + `Entity.` + strings.Title(strings.ToLower(moduleName)) + `
+func Update` + strings.Title(moduleName) + `(c *gin.Context) {
+	var ` + moduleName + ` ` + moduleName + `Entity.` + strings.Title(moduleName) + `
 	c.ShouldBindJSON(&` + moduleName + `)
 	` + moduleName + `Id := c.Param("id")
 
 	c.JSON(200, gin.H{
-		"message": ` + moduleName + `UseCase.Update` + strings.Title(strings.ToLower(moduleName)) + `(` + moduleName + `Id, ` + moduleName + `.Title),
+		"message": ` + moduleName + `UseCase.Update` + strings.Title(moduleName) + `(` + moduleName + `Id, ` + moduleName + `.Title),
 	})
 }
 
-func Delete` + strings.Title(strings.ToLower(moduleName)) + `(c *gin.Context) {
+func Delete` + strings.Title(moduleName) + `(c *gin.Context) {
 	` + moduleName + `Id := c.Param("id")
 
 	c.JSON(200, gin.H{
-		"message": ` + moduleName + `UseCase.Delete` + strings.Title(strings.ToLower(moduleName)) + `(` + moduleName + `Id),
+		"message": ` + moduleName + `UseCase.Delete` + strings.Title(moduleName) + `(` + moduleName + `Id),
 	})
 }`
 	controllerBytes := []byte(controllerString)
@@ -386,19 +386,19 @@ import (
 	` + moduleName + `Repository "github.com/` + currentDirName + `/infraestructure/repository/` + moduleName + `"
 )
 
-func Create` + strings.Title(strings.ToLower(moduleName)) + `(` + moduleName + `Id string, title string) string {
+func Create` + strings.Title(moduleName) + `(` + moduleName + `Id string, title string) string {
 	return ` + moduleName + `Repository.Create(` + moduleName + `Id, title)
 }
 
-func Get` + strings.Title(strings.ToLower(moduleName)) + `() interface{} {
+func Get` + strings.Title(moduleName) + `() interface{} {
 	return ` + moduleName + `Repository.FindAll()
 }
 
-func Update` + strings.Title(strings.ToLower(moduleName)) + `(` + moduleName + `Id string, title string) string {
+func Update` + strings.Title(moduleName) + `(` + moduleName + `Id string, title string) string {
 	return ` + moduleName + `Repository.Update(` + moduleName + `Id, title)
 }
 
-func Delete` + strings.Title(strings.ToLower(moduleName)) + `(` + moduleName + `Id string) string {
+func Delete` + strings.Title(moduleName) + `(` + moduleName + `Id string) string {
 	return ` + moduleName + `Repository.Delete(` + moduleName + `Id)
 }`
 	useCaseBytes := []byte(useCaseString)
@@ -447,7 +447,7 @@ func Delete(` + moduleName + `Id string) string {
 	entitiesString :=
 		`package ` + moduleName + `
 
-type ` + strings.Title(strings.ToLower(moduleName)) + ` struct {
+type ` + strings.Title(moduleName) + ` struct {
 	Id    string
 	Title string
 }`
@@ -523,9 +523,9 @@ import (
 	_ "github.com/` + currentDirName + `/infraestructure/entities/` + moduleName + `" // Change _ for ` + moduleName + `Entity or something that works for you
 )
 
-func Get` + strings.Title(strings.ToLower(moduleName)) + `(c *gin.Context) {
+func Get` + strings.Title(moduleName) + `(c *gin.Context) {
 	c.JSON(200, gin.H{
-		"message": ` + moduleName + `UseCase.Get` + strings.Title(strings.ToLower(moduleName)) + `(),
+		"message": ` + moduleName + `UseCase.Get` + strings.Title(moduleName) + `(),
 	})
 }`
 	controllerBytes := []byte(controllerString)
@@ -539,7 +539,7 @@ import (
 	` + moduleName + `Repository "github.com/` + currentDirName + `/infraestructure/repository/` + moduleName + `"
 )
 
-func Get` + strings.Title(strings.ToLower(moduleName)) + `() string {
+func Get` + strings.Title(moduleName) + `() string {
 	return ` + moduleName + `Repository.FindAll()
 }`
 	useCaseBytes := []byte(useCaseString)
@@ -559,7 +559,7 @@ func FindAll() string {
 	entitiesString :=
 		`package ` + moduleName + `
 
-type ` + strings.Title(strings.ToLower(moduleName)) + ` struct {
+type ` + strings.Title(moduleName) + ` struct {
 
 }`
 	entitiesBytes := []byte(entitiesString)
@@ -814,10 +814,10 @@ func AppendToRoutingCrud(moduleName string) {
 
 		if strings.Contains(line, "return router") {
 			lines[i] = ` //` + moduleName + `
-	router.POST("/` + moduleName + `", ` + moduleName + `Controller.Create` + strings.Title(strings.ToLower(moduleName)) + `)
-	router.GET("/` + moduleName + `", ` + moduleName + `Controller.Get` + strings.Title(strings.ToLower(moduleName)) + `)
-	router.PUT("/` + moduleName + `/:id", ` + moduleName + `Controller.Update` + strings.Title(strings.ToLower(moduleName)) + `)
-	router.DELETE("/` + moduleName + `/:id", ` + moduleName + `Controller.Delete` + strings.Title(strings.ToLower(moduleName)) + `)
+	router.POST("/` + moduleName + `", ` + moduleName + `Controller.Create` + strings.Title(moduleName) + `)
+	router.GET("/` + moduleName + `", ` + moduleName + `Controller.Get` + strings.Title(moduleName) + `)
+	router.PUT("/` + moduleName + `/:id", ` + moduleName + `Controller.Update` + strings.Title(moduleName) + `)
+	router.DELETE("/` + moduleName + `/:id", ` + moduleName + `Controller.Delete` + strings.Title(moduleName) + `)
 
 ` + lines[i] + `
 `
@@ -884,7 +884,7 @@ func AppendToRoutingSimple(moduleName string) {
 
 		if strings.Contains(line, "return router") {
 			lines[i] = ` //` + moduleName + `
-	router.GET("/` + moduleName + `", ` + moduleName + `Controller.Get` + strings.Title(strings.ToLower(moduleName)) + `)
+	router.GET("/` + moduleName + `", ` + moduleName + `Controller.Get` + strings.Title(moduleName) + `)
 
 ` + lines[i] + `
 `
