@@ -18,7 +18,7 @@ Gojira is a cli tool to create clean architecture app for you including gin-goni
 - Gin Gonic (https://github.com/gin-gonic/gin)
 - Jwt (https://github.com/dgrijalva/jwt-go)
 - Bcrypt (https://golang.org/x/crypto/bcrypt)
-- Auto generate module with crud example
+- Auto generate module with crud flow
 - Auto generate db service client 
   - Mysql
   - Gorm
@@ -54,13 +54,13 @@ To create a new gin-gonic with clean architecture project(This includes a crud e
 gojira new --folder yourProjectName
 ```
 
-To create a new module with crud:
+To create a new module with crud flow:
 
 ```
 gojira module --generate-crud yourModuleName
 ```
 
-To create a new module with simple example:
+To create a new module with simple example flow:
 
 ```
 gojira module-simple --generate yourModuleName
