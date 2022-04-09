@@ -290,7 +290,7 @@ func main() {
 		},
 		{
 			Name:  "module",
-			Usage: "(gojira module --generate-crud yourModuleName) This will create a new module with crud example",
+			Usage: "(gojira module --generate-crud yourModuleName) This will create a new module with crud flow",
 			Flags: myFlags,
 			Action: func(c *cli.Context) error {
 				//module name

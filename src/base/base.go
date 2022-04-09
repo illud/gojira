@@ -338,6 +338,8 @@ func BaseModuleCrud(moduleName string) {
 		`package ` + moduleName + `
 
 import (
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 	` + moduleName + `UseCase "github.com/` + currentDirName + `/domain/useCase/` + moduleName + `"
 	` + moduleName + `Entity "github.com/` + currentDirName + `/infraestructure/entities/` + moduleName + `"
@@ -348,7 +350,7 @@ func Create` + strings.Title(moduleName) + `(c *gin.Context) {
 	c.ShouldBindJSON(&` + moduleName + `)
 
 	c.JSON(200, gin.H{
-		"message": ` + moduleName + `UseCase.Create` + strings.Title(moduleName) + `(` + moduleName + `.Id, ` + moduleName + `.Title),
+		"message": ` + moduleName + `UseCase.Create` + strings.Title(moduleName) + `(),
 	})
 }
 
@@ -362,17 +364,19 @@ func Update` + strings.Title(moduleName) + `(c *gin.Context) {
 	var ` + moduleName + ` ` + moduleName + `Entity.` + strings.Title(moduleName) + `
 	c.ShouldBindJSON(&` + moduleName + `)
 	` + moduleName + `Id := c.Param("id")
+	` + moduleName + `IdToInt, _ := strconv.Atoi(` + moduleName + `Id)
 
 	c.JSON(200, gin.H{
-		"message": ` + moduleName + `UseCase.Update` + strings.Title(moduleName) + `(` + moduleName + `Id, ` + moduleName + `.Title),
+		"message": ` + moduleName + `UseCase.Update` + strings.Title(moduleName) + `(` + moduleName + `IdToInt),
 	})
 }
 
 func Delete` + strings.Title(moduleName) + `(c *gin.Context) {
 	` + moduleName + `Id := c.Param("id")
+	` + moduleName + `IdToInt, _ := strconv.Atoi(` + moduleName + `Id)
 
 	c.JSON(200, gin.H{
-		"message": ` + moduleName + `UseCase.Delete` + strings.Title(moduleName) + `(` + moduleName + `Id),
+		"message": ` + moduleName + `UseCase.Delete` + strings.Title(moduleName) + `(` + moduleName + `IdToInt),
 	})
 }`
 	controllerBytes := []byte(controllerString)
@@ -386,19 +390,19 @@ import (
 	` + moduleName + `Repository "github.com/` + currentDirName + `/infraestructure/repository/` + moduleName + `"
 )
 
-func Create` + strings.Title(moduleName) + `(` + moduleName + `Id string, title string) string {
-	return ` + moduleName + `Repository.Create(` + moduleName + `Id, title)
+func Create` + strings.Title(moduleName) + `() string {
+	return ` + moduleName + `Repository.Create()
 }
 
 func Get` + strings.Title(moduleName) + `() interface{} {
 	return ` + moduleName + `Repository.FindAll()
 }
 
-func Update` + strings.Title(moduleName) + `(` + moduleName + `Id string, title string) string {
-	return ` + moduleName + `Repository.Update(` + moduleName + `Id, title)
+func Update` + strings.Title(moduleName) + `(` + moduleName + `Id int) string {
+	return ` + moduleName + `Repository.Update(` + moduleName + `Id)
 }
 
-func Delete` + strings.Title(moduleName) + `(` + moduleName + `Id string) string {
+func Delete` + strings.Title(moduleName) + `(` + moduleName + `Id int) string {
 	return ` + moduleName + `Repository.Delete(` + moduleName + `Id)
 }`
 	useCaseBytes := []byte(useCaseString)
@@ -414,8 +418,7 @@ import (
 
 var ` + moduleName + ` []` + moduleName + `Entity.` + strings.Title(moduleName) + `
 
-func Create(` + moduleName + `Id string, title string) string {
-	` + moduleName + ` = append(` + moduleName + `, ` + moduleName + `Entity.` + strings.Title(moduleName) + `{Id: ` + moduleName + `Id, Title: title})
+func Create() string {
 	return "` + strings.Title(moduleName) + ` created"
 }
 
@@ -423,21 +426,11 @@ func FindAll() interface{} {
 	return ` + moduleName + `
 }
 
-func Update(` + moduleName + `Id string, title string) string {
-	for i := 0; i < len(` + moduleName + `); i++ {
-		if ` + moduleName + `[i].Id == ` + moduleName + `Id {
-			` + moduleName + `[i].Title = title
-		}
-	}
+func Update(` + moduleName + `Id int) string {
 	return "` + strings.Title(moduleName) + ` updated"
 }
 
-func Delete(` + moduleName + `Id string) string {
-	for i := 0; i < len(` + moduleName + `); i++ {
-		if ` + moduleName + `[i].Id == ` + moduleName + `Id {
-			` + moduleName + ` = append(` + moduleName + `[:i], ` + moduleName + `[i+1:]...)
-		}
-	}
+func Delete(` + moduleName + `Id int) string {
 	return "` + strings.Title(moduleName) + ` deleted"
 }`
 	repositoryBytes := []byte(repositoryString)
@@ -448,8 +441,7 @@ func Delete(` + moduleName + `Id string) string {
 		`package ` + moduleName + `
 
 type ` + strings.Title(moduleName) + ` struct {
-	Id    string
-	Title string
+	Id    int
 }`
 	entitiesBytes := []byte(entitiesString)
 	ioutil.WriteFile("infraestructure/entities/"+moduleName+"/"+moduleName+".entity.go", entitiesBytes, 0)
