@@ -67,13 +67,13 @@ func CreateTasks(c *gin.Context) {
 	c.ShouldBindJSON(&task)
 
 	c.JSON(200, gin.H{
-		"message": tasksUseCase.CreateTasks(task.Id, task.Title, task.Description),
+		"data": tasksUseCase.CreateTasks(task.Id, task.Title, task.Description),
 	})
 }
 
 func GetTasks(c *gin.Context) {
 	c.JSON(200, gin.H{
-		"message": tasksUseCase.GetTasks(),
+		"data": tasksUseCase.GetTasks(),
 	})
 }
 
@@ -83,7 +83,7 @@ func UpdateTasks(c *gin.Context) {
 	taskId := c.Param("id")
 
 	c.JSON(200, gin.H{
-		"message": tasksUseCase.UpdateTasks(taskId, task.Title, task.Description),
+		"data": tasksUseCase.UpdateTasks(taskId, task.Title, task.Description),
 	})
 }
 
@@ -91,7 +91,7 @@ func DeleteTasks(c *gin.Context) {
 	taskId := c.Param("id")
 
 	c.JSON(200, gin.H{
-		"message": tasksUseCase.DeleteTasks(taskId),
+		"data": tasksUseCase.DeleteTasks(taskId),
 	})
 }`
 	taskControllerBytes := []byte(taskControllerString)
@@ -289,10 +289,20 @@ import (
 	"github.com/stretchr/testify/assert"
 	router "github.com/` + folderName + `/routing"
 	token "github.com/` + folderName + `/utils/services/jwt"
+
+	/*
+		- Uncomment this when you are testing real data coming from database.
+		db "github.com/projectname/infraestructure/databases"
+	*/
 )
 
 func TestGetTasks(t *testing.T) {
 	tokenData := token.GenerateToken("test") //Your token data
+
+	/*
+		- Uncomment this when you are testing real data coming from database.
+	    db.Connect()
+	*/
 
 	router := router.Router()
 
@@ -305,7 +315,7 @@ func TestGetTasks(t *testing.T) {
 	req.Header.Set("Content-Type", "application/json")
 	router.ServeHTTP(w, req) 
 
-	expected := ` + "`" + `{"message":null}` + "`" + ` // Your expected data inside backquote 
+	expected := ` + "`" + `{"data":null}` + "`" + ` // Your expected data inside backquote 
 	expectedStatus := "200 OK"
 
 	assert.Contains(t, w.Body.String(), expected, "🔴 Expected %v 🔴 got %v", expected, w.Body.String())
@@ -350,13 +360,13 @@ func Create` + strings.Title(moduleName) + `(c *gin.Context) {
 	c.ShouldBindJSON(&` + moduleName + `)
 
 	c.JSON(200, gin.H{
-		"message": ` + moduleName + `UseCase.Create` + strings.Title(moduleName) + `(),
+		"data": ` + moduleName + `UseCase.Create` + strings.Title(moduleName) + `(),
 	})
 }
 
 func Get` + strings.Title(moduleName) + `(c *gin.Context) {
 	c.JSON(200, gin.H{
-		"message": ` + moduleName + `UseCase.Get` + strings.Title(moduleName) + `(),
+		"data": ` + moduleName + `UseCase.Get` + strings.Title(moduleName) + `(),
 	})
 }
 
@@ -367,7 +377,7 @@ func Update` + strings.Title(moduleName) + `(c *gin.Context) {
 	` + moduleName + `IdToInt, _ := strconv.Atoi(` + moduleName + `Id)
 
 	c.JSON(200, gin.H{
-		"message": ` + moduleName + `UseCase.Update` + strings.Title(moduleName) + `(` + moduleName + `IdToInt),
+		"data": ` + moduleName + `UseCase.Update` + strings.Title(moduleName) + `(` + moduleName + `IdToInt),
 	})
 }
 
@@ -376,7 +386,7 @@ func Delete` + strings.Title(moduleName) + `(c *gin.Context) {
 	` + moduleName + `IdToInt, _ := strconv.Atoi(` + moduleName + `Id)
 
 	c.JSON(200, gin.H{
-		"message": ` + moduleName + `UseCase.Delete` + strings.Title(moduleName) + `(` + moduleName + `IdToInt),
+		"data": ` + moduleName + `UseCase.Delete` + strings.Title(moduleName) + `(` + moduleName + `IdToInt),
 	})
 }`
 	controllerBytes := []byte(controllerString)
@@ -461,10 +471,20 @@ import (
 	"github.com/stretchr/testify/assert"
 	router "github.com/` + currentDirName + `/routing"
 	token "github.com/` + currentDirName + `/utils/services/jwt"
+
+	/*
+		- Uncomment this when you are testing real data coming from database.
+		db "github.com/projectname/infraestructure/databases"
+	*/
 )
 
 func TestGet` + strings.Title(moduleName) + `(t *testing.T) {
 	tokenData := token.GenerateToken("test") //Your token data
+
+	/*
+		- Uncomment this when you are testing real data coming from database.
+	    db.Connect()
+	*/
 
 	router := router.Router()
 
@@ -477,7 +497,7 @@ func TestGet` + strings.Title(moduleName) + `(t *testing.T) {
 	req.Header.Set("Content-Type", "application/json")
 	router.ServeHTTP(w, req) 
 
-	expected := ` + "`" + `{"message":null}` + "`" + ` // Your expected data inside backquote 
+	expected := ` + "`" + `{"data":null}` + "`" + ` // Your expected data inside backquote 
 	expectedStatus := "200 OK"
 
 	assert.Contains(t, w.Body.String(), expected, "🔴 Expected %v 🔴 got %v", expected, w.Body.String())
@@ -517,7 +537,7 @@ import (
 
 func Get` + strings.Title(moduleName) + `(c *gin.Context) {
 	c.JSON(200, gin.H{
-		"message": ` + moduleName + `UseCase.Get` + strings.Title(moduleName) + `(),
+		"data": ` + moduleName + `UseCase.Get` + strings.Title(moduleName) + `(),
 	})
 }`
 	controllerBytes := []byte(controllerString)
@@ -572,10 +592,20 @@ import (
 	"github.com/stretchr/testify/assert"
 	router "github.com/` + currentDirName + `/routing"
 	token "github.com/` + currentDirName + `/utils/services/jwt"
+
+	/*
+		- Uncomment this when you are testing real data coming from database.
+		db "github.com/projectname/infraestructure/databases"
+	*/
 )
 
 func TestGet` + strings.Title(moduleName) + `(t *testing.T) {
 	tokenData := token.GenerateToken("test") //Your token data
+
+	/*
+		- Uncomment this when you are testing real data coming from database.
+	    db.Connect()
+	*/
 
 	router := router.Router()
 
@@ -633,9 +663,7 @@ func Connect() {
 	fmt.Println("CONNECTED")
 }
 
-var Client = DbConnection()
-
-func DbConnection() *sql.DB {
+func Client() *sql.DB {
 	return db
 }`
 		//Adds db conection to main.go
@@ -671,9 +699,7 @@ func Connect() {
 	fmt.Println("CONNECTED")
 }
 
-var Client = DbConnection()
-
-func DbConnection() *gorm.DB {
+func Client() *gorm.DB {
 	return db
 }`
 		//Adds db conection to main.go
@@ -726,9 +752,7 @@ func Connect(){
 	fmt.Println("CONNECTED")
 }
 
-var Client = DbConnection()
-
-func DbConnection() *db.PrismaClient {
+func Client() *db.PrismaClient {
 	return prismaDdb
 }
 
@@ -811,8 +835,7 @@ func AppendToRoutingCrud(moduleName string) {
 	router.PUT("/` + moduleName + `/:id", ` + moduleName + `Controller.Update` + strings.Title(moduleName) + `)
 	router.DELETE("/` + moduleName + `/:id", ` + moduleName + `Controller.Delete` + strings.Title(moduleName) + `)
 
-` + lines[i] + `
-`
+` + lines[i] + ``
 		}
 
 	}
@@ -878,8 +901,7 @@ func AppendToRoutingSimple(moduleName string) {
 			lines[i] = ` //` + moduleName + `
 	router.GET("/` + moduleName + `", ` + moduleName + `Controller.Get` + strings.Title(moduleName) + `)
 
-` + lines[i] + `
-`
+` + lines[i] + ``
 		}
 
 	}

@@ -279,7 +279,6 @@ func main() {
 				}
 
 				//Display usage
-				fmt.Println("")
 				fmt.Println(" | get started ")
 				fmt.Println(" | cd ", folderName)
 				fmt.Println(" | go run main.go ")

@@ -97,7 +97,7 @@ db "github.com/yourProjectName/infraestructure/databases"
 Example for Mysql:
 ```go
 // Insert new tasks
-res, err := db.Client.Exec("INSERT INTO tasks VALUES(DEFAULT, 'Title', 'Desc')")
+res, err := db.Client().Exec("INSERT INTO tasks VALUES(DEFAULT, 'Title', 'Desc')")
 if err != nil {
   fmt.Println("ERROR: ", err)
 }
@@ -110,7 +110,7 @@ To learn more visit (https://github.com/go-sql-driver/mysql)
 Example for Gorm:
 ```go
 // Insert new tasks
-err := db.Client.Save(&tasksEntity.Task{
+err := db.Client().Save(&tasksEntity.Task{
   Title:       "TEST",
   Description: "This is a description",
 })
@@ -131,7 +131,7 @@ dbClient "github.com/yourProjectName/infraestructure/databases"
 Example for prisma:
 ```go
 // Insert new tasks
-createdTask, err := dbClient.Client.Tasks.CreateOne(
+createdTask, err := dbClient.Client().Tasks.CreateOne(
   db.Tasks.Title.Set("Hi from Prisma!"),
   db.Tasks.Description.Set("Prisma is a database toolkit and makes databases easy."),
 ).Exec(dbClient.Context)
@@ -147,9 +147,29 @@ To learn more visit (https://github.com/prisma/prisma-client-go)
 
 <br/>
 
-Testing: To run tests use
+# Testing
+
+To run tests use
 ```shell
 go test -v ./...
+```
+To get coverage
+```shell
+go test -v -cover --coverprofile=coverage.out  -coverpkg=./... ./...
+```
+To view test coverage on your browser
+```shell
+go tool cover -html=coverage.out
+```
+Total coverage
+
+Windows
+```shell
+go tool cover -func=coverage.out | findstr total:
+```
+Linux
+```shell
+go tool cover -func=coverage.out | grep total:
 ```
 
 Folder Structure:
