@@ -292,7 +292,7 @@ import (
 
 	/*
 		- Uncomment this when you are testing real data coming from database.
-		db "github.com/projectname/infraestructure/databases"
+		db "github.com/` + folderName + `/infraestructure/databases"
 	*/
 )
 
@@ -474,7 +474,7 @@ import (
 
 	/*
 		- Uncomment this when you are testing real data coming from database.
-		db "github.com/projectname/infraestructure/databases"
+		db "github.com/` + currentDirName + `/infraestructure/databases"
 	*/
 )
 
@@ -595,7 +595,7 @@ import (
 
 	/*
 		- Uncomment this when you are testing real data coming from database.
-		db "github.com/projectname/infraestructure/databases"
+		db "github.com/` + currentDirName + `/infraestructure/databases"
 	*/
 )
 
