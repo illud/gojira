@@ -360,6 +360,7 @@ func TestGetTasks(t *testing.T) {
 
 	req, _ := http.NewRequest("GET", "/tasks", bytes.NewBuffer(jsonValue))
 	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", tokenData)
 	router.ServeHTTP(w, req) 
 
 	expected := ` + "`" + `{"data":null}` + "`" + ` // Your expected data inside backquote 
@@ -562,6 +563,7 @@ func TestGet` + strings.Title(moduleName) + `(t *testing.T) {
 
 	req, _ := http.NewRequest("GET", "/` + moduleName + `", bytes.NewBuffer(jsonValue))
 	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", tokenData)
 	router.ServeHTTP(w, req) 
 
 	expected := ` + "`" + `{"data":null}` + "`" + ` // Your expected data inside backquote 
@@ -693,6 +695,7 @@ func TestGet` + strings.Title(moduleName) + `(t *testing.T) {
 
 	req, _ := http.NewRequest("GET", "/` + moduleName + `", bytes.NewBuffer(jsonValue))
 	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", tokenData)
 	router.ServeHTTP(w, req) 
 
 	expected := ` + "`" + `{id: 1, title: '` + moduleName + ` title'}` + "`" + ` // Your expected data inside backquote 
