@@ -16,10 +16,16 @@ func BaseData(folderName string) {
 		`package main
 
 import (
+	//Uncomment next line when you want to connect to a database
+	//db "github.com/` + folderName + `/infraestructure/databases"
 	router "github.com/` + folderName + `/routing"
 )
 
 func main() {
+	//Uncomment next line when you want to connect to a database
+	//Connect to database
+	//db.Connect()
+
 	router.Router().Run(":5000")
 }`
 	mainBytes := []byte(mainString)
