@@ -21,6 +21,18 @@ import (
 	router "github.com/` + folderName + `/routing"
 )
 
+//The next lines are for swagger docs
+// @title ` + folderName + `
+// @version version(1.0)
+// @description Description of specifications
+// @Precautions when using termsOfService specifications
+
+// @host localhost:5000
+// @BasePath /
+
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
 func main() {
 	//Uncomment next line when you want to connect to a database
 	//Connect to database
@@ -39,7 +51,12 @@ import (
 	tasksController "github.com/` + folderName + `/controller/tasks"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+
+	docs "github.com/` + folderName + `/docs"
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
+
 func Router() *gin.Engine {
 	//this sets gin to release mode
 	gin.SetMode(gin.ReleaseMode)
@@ -47,6 +64,10 @@ func Router() *gin.Engine {
 	router := gin.New()
 
 	router.Use(cors.Default())
+
+	//SWAGGER
+	docs.SwaggerInfo.BasePath = "/"
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
 	router.POST("/tasks", tasksController.CreateTasks)
 	router.GET("/tasks", tasksController.GetTasks)
@@ -68,6 +89,16 @@ import (
 	tasksEntity "github.com/` + folderName + `/infraestructure/entities/tasks"
 )
 
+// Post Tasks
+// @Summary Post Tasks
+// @Schemes
+// @Description Post Tasks
+// @Tags Tasks
+// @Accept json
+// @Produce json
+// @Param Body body tasksEntity.Task true "Body to create Tasks"
+// @Success 200
+// @Router /tasks [post]
 func CreateTasks(c *gin.Context) {
 	var task tasksEntity.Task
 	c.ShouldBindJSON(&task)
@@ -77,6 +108,16 @@ func CreateTasks(c *gin.Context) {
 	})
 }
 
+// Get Tasks
+// @Summary Get Tasks
+// @Schemes
+// @Description Get Tasks
+// @Tags Tasks
+// @Security BearerAuth
+// @Accept json
+// @Produce json
+// @Success 200
+// @Router /tasks [Get]
 func GetTasks(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"data": tasksUseCase.GetTasks(),
@@ -361,6 +402,16 @@ import (
 	` + moduleName + `Entity "github.com/` + currentDirName + `/infraestructure/entities/` + moduleName + `"
 )
 
+// Post ` + strings.Title(moduleName) + `
+// @Summary Post ` + strings.Title(moduleName) + `
+// @Schemes
+// @Description Post ` + strings.Title(moduleName) + `
+// @Tags ` + strings.Title(moduleName) + `
+// @Accept json
+// @Produce json
+// @Param Body body ` + moduleName + `Entity.` + strings.Title(moduleName) + ` true "Body to create ` + strings.Title(moduleName) + `"
+// @Success 200
+// @Router /` + moduleName + ` [Post]
 func Create` + strings.Title(moduleName) + `(c *gin.Context) {
 	var ` + moduleName + ` ` + moduleName + `Entity.` + strings.Title(moduleName) + `
 	c.ShouldBindJSON(&` + moduleName + `)
@@ -370,6 +421,16 @@ func Create` + strings.Title(moduleName) + `(c *gin.Context) {
 	})
 }
 
+// Get ` + strings.Title(moduleName) + `
+// @Summary Get ` + strings.Title(moduleName) + `
+// @Schemes
+// @Description Get ` + strings.Title(moduleName) + `
+// @Tags ` + strings.Title(moduleName) + `
+// @Security BearerAuth
+// @Accept json
+// @Produce json
+// @Success 200
+// @Router /` + moduleName + ` [Get]
 func Get` + strings.Title(moduleName) + `(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"data": ` + moduleName + `UseCase.Get` + strings.Title(moduleName) + `(),
@@ -541,6 +602,16 @@ import (
 	_ "github.com/` + currentDirName + `/infraestructure/entities/` + moduleName + `" // Change _ for ` + moduleName + `Entity or something that works for you
 )
 
+// Get ` + strings.Title(moduleName) + `
+// @Summary Get ` + strings.Title(moduleName) + `
+// @Schemes
+// @Description Get ` + strings.Title(moduleName) + `
+// @Tags ` + strings.Title(moduleName) + `
+// @Security BearerAuth
+// @Accept json
+// @Produce json
+// @Success 200
+// @Router /` + moduleName + ` [Get]
 func Get` + strings.Title(moduleName) + `(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"data": ` + moduleName + `UseCase.Get` + strings.Title(moduleName) + `(),

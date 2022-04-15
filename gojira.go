@@ -228,6 +228,16 @@ func main() {
 					installDependencies := exec.Command("cmd", "/c", "go get -d ./...")
 					installDependencies.Dir = folderName
 
+					//SWAG INIT
+					swagInit := exec.Command("cmd", "/c", "swag init")
+					swagInit.Dir = folderName
+
+					swagInitOut, err := swagInit.Output()
+					if err != nil {
+						os.Stderr.WriteString(err.Error())
+					}
+					fmt.Println(string(swagInitOut))
+
 					//INSTALL DEPENDENCIES
 					installDependenciesOut, err := installDependencies.Output()
 					if err != nil {
@@ -244,6 +254,7 @@ func main() {
 						os.Stderr.WriteString(err.Error())
 					}
 					fmt.Println(string(installTestDependenciesOut))
+
 				}
 
 				if runtime.GOOS == "linux" {
@@ -260,6 +271,16 @@ func main() {
 					installDependencies := exec.Command("sh", "/c", "go get -d ./...")
 					installDependencies.Dir = folderName
 
+					//SWAG INIT
+					swagInit := exec.Command("sh", "/c", "swag init")
+					swagInit.Dir = folderName
+
+					swagInitOut, err := swagInit.Output()
+					if err != nil {
+						os.Stderr.WriteString(err.Error())
+					}
+					fmt.Println(string(swagInitOut))
+
 					//INSTALL DEPENDENCIES
 					installDependenciesOut, err := installDependencies.Output()
 					if err != nil {
@@ -268,7 +289,7 @@ func main() {
 					fmt.Println(string(installDependenciesOut))
 
 					//INSTALL TEST DEPENDENCIES
-					installTestDependencies := exec.Command("cmd", "/c", "go get -t ./...")
+					installTestDependencies := exec.Command("sh", "/c", "go get -t ./...")
 					installTestDependencies.Dir = folderName
 
 					installTestDependenciesOut, err := installTestDependencies.Output()
@@ -352,6 +373,28 @@ func main() {
 				//Append controller to routing.go file
 				base.AppendToRoutingCrud(moduleName)
 
+				//SWAG INIT Windows
+				if runtime.GOOS == "windows" {
+					swagInit := exec.Command("cmd", "/c", "swag init")
+
+					swagInitOut, err := swagInit.Output()
+					if err != nil {
+						os.Stderr.WriteString(err.Error())
+					}
+					fmt.Println(string(swagInitOut))
+				}
+
+				//SWAG INIT Linux
+				if runtime.GOOS == "linux" {
+					swagInit := exec.Command("sh", "/c", "swag init")
+
+					swagInitOut, err := swagInit.Output()
+					if err != nil {
+						os.Stderr.WriteString(err.Error())
+					}
+					fmt.Println(string(swagInitOut))
+				}
+
 				return nil
 			},
 		},
@@ -419,6 +462,29 @@ func main() {
 
 				//Append controller to routing.go file
 				base.AppendToRoutingSimple(moduleName)
+
+				//SWAG INIT Windows
+				if runtime.GOOS == "windows" {
+					swagInit := exec.Command("cmd", "/c", "swag init")
+
+					swagInitOut, err := swagInit.Output()
+					if err != nil {
+						os.Stderr.WriteString(err.Error())
+					}
+					fmt.Println(string(swagInitOut))
+				}
+
+				//SWAG INIT Linux
+				if runtime.GOOS == "linux" {
+					swagInit := exec.Command("sh", "/c", "swag init")
+
+					swagInitOut, err := swagInit.Output()
+					if err != nil {
+						os.Stderr.WriteString(err.Error())
+					}
+					fmt.Println(string(swagInitOut))
+				}
+
 				return nil
 			},
 		},

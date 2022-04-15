@@ -16,15 +16,17 @@ Gojira is a cli tool to create clean architecture app for you including gin-goni
 ## Features
 - Clean Architecture Folder Structure (https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
 - Gin Gonic (https://github.com/gin-gonic/gin)
+- [Swagger](#swagger) (https://github.com/swaggo/gin-swagger)
 - Jwt (https://github.com/dgrijalva/jwt-go)
 - Bcrypt (https://golang.org/x/crypto/bcrypt)
-- Auto generate module with crud flow
-- Auto generate db service client 
+- Auto add swagger for your endpoint
+- [Modules](#modules) - Auto generate module with crud flow
+- [Database Service](#database-service) - Auto generate db service client 
   - Mysql
   - Gorm
   - Prisma
 - Example tasks api
-- Testing (Auto generate test example when creating a new modules)
+- [Testing](#testing)  (Auto generate test example when creating a new modules)
 
 ## Installation
 
@@ -54,6 +56,7 @@ To create a new gin-gonic with clean architecture project(This includes a crud e
 gojira new --folder yourProjectName
 ```
 
+## Modules
 To create a new module with crud flow:
 
 ```
@@ -147,28 +150,41 @@ To learn more visit (https://github.com/prisma/prisma-client-go)
 
 <br/>
 
+# Swagger
+
+Build your application and after that, go to http://localhost:5000/swagger/index.html , you to see your Swagger UI.
+
+When you create a new module swagger will be added automatically then you only need to modified what you need, but remember each time you modified swagger use the next command 
+
+```shell
+swag init
+```
+To learn more visit (https://github.com/swaggo/gin-swagger)
+
+<br/>
+
 # Testing
 
 To run tests use
-```shell
+```go
 go test -v ./...
 ```
 To get coverage
-```shell
+```go
 go test -v -cover --coverprofile=coverage.out  -coverpkg=./... ./...
 ```
 To view test coverage on your browser
-```shell
+```go
 go tool cover -html=coverage.out
 ```
 Total coverage
 
 Windows
-```shell
+```go
 go tool cover -func=coverage.out | findstr total:
 ```
 Linux
-```shell
+```go
 go tool cover -func=coverage.out | grep total:
 ```
 
