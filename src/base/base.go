@@ -94,6 +94,7 @@ import (
 // @Schemes
 // @Description Post Tasks
 // @Tags Tasks
+// @Security BearerAuth
 // @Accept json
 // @Produce json
 // @Param Body body tasksEntity.Task true "Body to create Tasks"
@@ -408,6 +409,7 @@ import (
 // @Schemes
 // @Description Post ` + strings.Title(moduleName) + `
 // @Tags ` + strings.Title(moduleName) + `
+// @Security BearerAuth
 // @Accept json
 // @Produce json
 // @Param Body body ` + moduleName + `Entity.` + strings.Title(moduleName) + ` true "Body to create ` + strings.Title(moduleName) + `"
