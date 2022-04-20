@@ -71,6 +71,7 @@ func Router() *gin.Engine {
 
 	router.POST("/tasks", tasksController.CreateTasks)
 	router.GET("/tasks", tasksController.GetTasks)
+	router.GET("/oneTasks/:taskId", tasksController.GetOneTasks)
 	router.PUT("/tasks/:id", tasksController.UpdateTasks)
 	router.DELETE("/tasks/:id", tasksController.DeleteTasks)
 
@@ -84,6 +85,8 @@ func Router() *gin.Engine {
 		`package tasks
 
 import (
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 	tasksUseCase "github.com/` + folderName + `/domain/useCase/tasks"
 	tasksEntity "github.com/` + folderName + `/infraestructure/entities/tasks"
@@ -125,6 +128,29 @@ func GetTasks(c *gin.Context) {
 	})
 }
 
+// Get Tasks
+// @Summary Get Tasks
+// @Schemes
+// @Description Get Tasks
+// @Tags Tasks
+// @Security BearerAuth
+// @Param taskId path int64 true "taskId"
+// @Accept json
+// @Produce json
+// @Success 200
+// @Router /oneTasks/{taskId} [Get]
+func GetOneTasks(c *gin.Context) {
+	var task tasksEntity.Task
+	c.ShouldBindJSON(&task)
+
+	taskId := c.Param("taskId")
+	taskIdToInt64, _ := strconv.ParseInt(taskId, 10, 64)
+
+	c.JSON(200, gin.H{
+		"data": tasksUseCase.GetOneTasks(taskIdToInt64),
+	})
+}
+
 func UpdateTasks(c *gin.Context) {
 	var task tasksEntity.Task
 	c.ShouldBindJSON(&task)
@@ -161,6 +187,10 @@ func GetTasks() interface{} {
 	return tasksRepository.FindAll()
 }
 
+func GetOneTasks(taskId int64) interface{} {
+	return tasksRepository.FindOne(taskId)
+}
+
 func UpdateTasks(taskId string, title string, description string) string {
 	return tasksRepository.Update(taskId, title, description)
 }
@@ -188,6 +218,10 @@ func Create(taskId string, title string, description string) string {
 
 func FindAll() interface{} {
 	return tasks
+}
+
+func FindOne(taskId int64) interface{} {
+	return taskId
 }
 
 func Update(taskId string, title string, description string) string {
@@ -440,11 +474,31 @@ func Get` + strings.Title(moduleName) + `(c *gin.Context) {
 	})
 }
 
+// Get ` + strings.Title(moduleName) + `
+// @Summary Get ` + strings.Title(moduleName) + `
+// @Schemes
+// @Description Get ` + strings.Title(moduleName) + `
+// @Tags ` + strings.Title(moduleName) + `
+// @Security BearerAuth
+// @Param ` + moduleName + `Id path int64 true "` + strings.Title(moduleName) + `Id"
+// @Accept json
+// @Produce json
+// @Success 200
+// @Router /` + moduleName + `/{` + moduleName + `Id} [Get]
+func GetOne` + strings.Title(moduleName) + `(c *gin.Context) {
+	` + moduleName + `Id := c.Param("` + moduleName + `Id")
+	` + moduleName + `IdToInt64, _ := strconv.ParseInt(` + moduleName + `Id, 10, 64)
+
+	c.JSON(200, gin.H{
+		"data": ` + moduleName + `UseCase.GetOne` + strings.Title(moduleName) + `(` + moduleName + `IdToInt64),
+	})
+}
+
 func Update` + strings.Title(moduleName) + `(c *gin.Context) {
 	var ` + moduleName + ` ` + moduleName + `Entity.` + strings.Title(moduleName) + `
 	c.ShouldBindJSON(&` + moduleName + `)
 	` + moduleName + `Id := c.Param("id")
-	` + moduleName + `IdToInt, _ := strconv.Atoi(` + moduleName + `Id)
+	` + moduleName + `IdToInt, _ := strconv.ParseInt(` + moduleName + `Id, 10, 64)
 
 	c.JSON(200, gin.H{
 		"data": ` + moduleName + `UseCase.Update` + strings.Title(moduleName) + `(` + moduleName + `IdToInt),
@@ -453,7 +507,7 @@ func Update` + strings.Title(moduleName) + `(c *gin.Context) {
 
 func Delete` + strings.Title(moduleName) + `(c *gin.Context) {
 	` + moduleName + `Id := c.Param("id")
-	` + moduleName + `IdToInt, _ := strconv.Atoi(` + moduleName + `Id)
+	` + moduleName + `IdToInt, _ := strconv.ParseInt(` + moduleName + `Id, 10, 64)
 
 	c.JSON(200, gin.H{
 		"data": ` + moduleName + `UseCase.Delete` + strings.Title(moduleName) + `(` + moduleName + `IdToInt),
@@ -478,11 +532,15 @@ func Get` + strings.Title(moduleName) + `() interface{} {
 	return ` + moduleName + `Repository.FindAll()
 }
 
-func Update` + strings.Title(moduleName) + `(` + moduleName + `Id int) string {
+func GetOne` + strings.Title(moduleName) + `(` + moduleName + `Id int64) interface{} {
+	return ` + moduleName + `Repository.FindOne(` + moduleName + `Id)
+}
+
+func Update` + strings.Title(moduleName) + `(` + moduleName + `Id int64) string {
 	return ` + moduleName + `Repository.Update(` + moduleName + `Id)
 }
 
-func Delete` + strings.Title(moduleName) + `(` + moduleName + `Id int) string {
+func Delete` + strings.Title(moduleName) + `(` + moduleName + `Id int64) string {
 	return ` + moduleName + `Repository.Delete(` + moduleName + `Id)
 }`
 	useCaseBytes := []byte(useCaseString)
@@ -506,11 +564,15 @@ func FindAll() interface{} {
 	return ` + moduleName + `
 }
 
-func Update(` + moduleName + `Id int) string {
+func FindOne(` + moduleName + `Id int64) interface{} {
+	return ` + moduleName + `Id
+}
+
+func Update(` + moduleName + `Id int64) string {
 	return "` + strings.Title(moduleName) + ` updated"
 }
 
-func Delete(` + moduleName + `Id int) string {
+func Delete(` + moduleName + `Id int64) string {
 	return "` + strings.Title(moduleName) + ` deleted"
 }`
 	repositoryBytes := []byte(repositoryString)
@@ -914,6 +976,7 @@ func AppendToRoutingCrud(moduleName string) {
 			lines[i] = ` //` + moduleName + `
 	router.POST("/` + moduleName + `", ` + moduleName + `Controller.Create` + strings.Title(moduleName) + `)
 	router.GET("/` + moduleName + `", ` + moduleName + `Controller.Get` + strings.Title(moduleName) + `)
+	router.GET("/` + moduleName + `/:` + moduleName + `Id", ` + moduleName + `Controller.GetOne` + strings.Title(moduleName) + `)
 	router.PUT("/` + moduleName + `/:id", ` + moduleName + `Controller.Update` + strings.Title(moduleName) + `)
 	router.DELETE("/` + moduleName + `/:id", ` + moduleName + `Controller.Delete` + strings.Title(moduleName) + `)
 
