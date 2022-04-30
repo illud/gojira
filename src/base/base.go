@@ -8,6 +8,8 @@ import (
 	"os/exec"
 	"runtime"
 	"strings"
+
+	regex "github.com/saturnavt/gojira/src/utils/regex"
 )
 
 func BaseData(folderName string) {
@@ -71,7 +73,7 @@ func Router() *gin.Engine {
 
 	router.POST("/tasks", tasksController.CreateTasks)
 	router.GET("/tasks", tasksController.GetTasks)
-	router.GET("/oneTasks/:taskId", tasksController.GetOneTasks)
+	router.GET("/tasks/:taskId", tasksController.GetOneTasks)
 	router.PUT("/tasks/:id", tasksController.UpdateTasks)
 	router.DELETE("/tasks/:id", tasksController.DeleteTasks)
 
@@ -138,7 +140,7 @@ func GetTasks(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Success 200
-// @Router /oneTasks/{taskId} [Get]
+// @Router /tasks/{taskId} [Get]
 func GetOneTasks(c *gin.Context) {
 	var task tasksEntity.Task
 	c.ShouldBindJSON(&task)
@@ -448,7 +450,7 @@ import (
 // @Produce json
 // @Param Body body ` + moduleName + `Entity.` + strings.Title(moduleName) + ` true "Body to create ` + strings.Title(moduleName) + `"
 // @Success 200
-// @Router /` + moduleName + ` [Post]
+// @Router /` + regex.StringToHyphen(moduleName) + ` [Post]
 func Create` + strings.Title(moduleName) + `(c *gin.Context) {
 	var ` + moduleName + ` ` + moduleName + `Entity.` + strings.Title(moduleName) + `
 	c.ShouldBindJSON(&` + moduleName + `)
@@ -467,7 +469,7 @@ func Create` + strings.Title(moduleName) + `(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Success 200
-// @Router /` + moduleName + ` [Get]
+// @Router /` + regex.StringToHyphen(moduleName) + ` [Get]
 func Get` + strings.Title(moduleName) + `(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"data": ` + moduleName + `UseCase.Get` + strings.Title(moduleName) + `(),
@@ -484,7 +486,7 @@ func Get` + strings.Title(moduleName) + `(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Success 200
-// @Router /` + moduleName + `/{` + moduleName + `Id} [Get]
+// @Router /` + regex.StringToHyphen(moduleName) + `/{` + moduleName + `Id} [Get]
 func GetOne` + strings.Title(moduleName) + `(c *gin.Context) {
 	` + moduleName + `Id := c.Param("` + moduleName + `Id")
 	` + moduleName + `IdToInt64, _ := strconv.ParseInt(` + moduleName + `Id, 10, 64)
@@ -625,7 +627,7 @@ func TestGet` + strings.Title(moduleName) + `(t *testing.T) {
 	values := map[string]interface{}{"token": tokenData} // this is the body in case you make a post, put
 	jsonValue, _ := json.Marshal(values)
 
-	req, _ := http.NewRequest("GET", "/` + moduleName + `", bytes.NewBuffer(jsonValue))
+	req, _ := http.NewRequest("GET", "/` + regex.StringToHyphen(moduleName) + `", bytes.NewBuffer(jsonValue))
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", tokenData)
 	router.ServeHTTP(w, req) 
@@ -677,7 +679,7 @@ import (
 // @Accept json
 // @Produce json
 // @Success 200
-// @Router /` + moduleName + ` [Get]
+// @Router /` + regex.StringToHyphen(moduleName) + ` [Get]
 func Get` + strings.Title(moduleName) + `(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"data": ` + moduleName + `UseCase.Get` + strings.Title(moduleName) + `(),
@@ -757,7 +759,7 @@ func TestGet` + strings.Title(moduleName) + `(t *testing.T) {
 	values := map[string]interface{}{"token": tokenData} // this is the body in case you make a post, put
 	jsonValue, _ := json.Marshal(values)
 
-	req, _ := http.NewRequest("GET", "/` + moduleName + `", bytes.NewBuffer(jsonValue))
+	req, _ := http.NewRequest("GET", "/` + regex.StringToHyphen(moduleName) + `", bytes.NewBuffer(jsonValue))
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", tokenData)
 	router.ServeHTTP(w, req) 
@@ -974,11 +976,11 @@ func AppendToRoutingCrud(moduleName string) {
 
 		if strings.Contains(line, "return router") {
 			lines[i] = ` //` + moduleName + `
-	router.POST("/` + moduleName + `", ` + moduleName + `Controller.Create` + strings.Title(moduleName) + `)
-	router.GET("/` + moduleName + `", ` + moduleName + `Controller.Get` + strings.Title(moduleName) + `)
-	router.GET("/` + moduleName + `/:` + moduleName + `Id", ` + moduleName + `Controller.GetOne` + strings.Title(moduleName) + `)
-	router.PUT("/` + moduleName + `/:id", ` + moduleName + `Controller.Update` + strings.Title(moduleName) + `)
-	router.DELETE("/` + moduleName + `/:id", ` + moduleName + `Controller.Delete` + strings.Title(moduleName) + `)
+	router.POST("/` + regex.StringToHyphen(moduleName) + `", ` + moduleName + `Controller.Create` + strings.Title(moduleName) + `)
+	router.GET("/` + regex.StringToHyphen(moduleName) + `", ` + moduleName + `Controller.Get` + strings.Title(moduleName) + `)
+	router.GET("/` + regex.StringToHyphen(moduleName) + `/:` + moduleName + `Id", ` + moduleName + `Controller.GetOne` + strings.Title(moduleName) + `)
+	router.PUT("/` + regex.StringToHyphen(moduleName) + `/:id", ` + moduleName + `Controller.Update` + strings.Title(moduleName) + `)
+	router.DELETE("/` + regex.StringToHyphen(moduleName) + `/:id", ` + moduleName + `Controller.Delete` + strings.Title(moduleName) + `)
 
 ` + lines[i] + ``
 		}
@@ -1044,7 +1046,7 @@ func AppendToRoutingSimple(moduleName string) {
 
 		if strings.Contains(line, "return router") {
 			lines[i] = ` //` + moduleName + `
-	router.GET("/` + moduleName + `", ` + moduleName + `Controller.Get` + strings.Title(moduleName) + `)
+	router.GET("/` + regex.StringToHyphen(moduleName) + `", ` + moduleName + `Controller.Get` + strings.Title(moduleName) + `)
 
 ` + lines[i] + ``
 		}
