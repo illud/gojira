@@ -19,6 +19,7 @@ Gojira is a cli tool to create clean architecture app for you including gin-goni
 - [Swagger](#swagger) (https://github.com/swaggo/gin-swagger)
 - Jwt (https://github.com/dgrijalva/jwt-go)
 - Bcrypt (https://golang.org/x/crypto/bcrypt)
+- [Async](#async) - Async functions
 - Auto add swagger for your endpoint
 - [Modules](#modules) - Auto generate module with crud flow
 - [Database Service](#database-service) - Auto generate db service client 
@@ -150,6 +151,35 @@ To learn more visit (https://github.com/prisma/prisma-client-go)
 
 <br/>
 
+## Async
+How to use async:
+
+```go
+package main
+
+import async "github.com/yourProjectName/utils/async"
+
+//This functions wait 3 seconds to return 1
+func DoneAsync() int {
+	fmt.Println("Warming up ...")
+	time.Sleep(3 * time.Second)
+	fmt.Println("Done ...")
+	return 1
+}
+
+func main() {
+	fmt.Println("Let's start ...")
+
+  //Here you call the function as async function
+	future := async.Exec(func() interface{} {
+		return DoneAsync()//The function that will await
+	}).Await()
+
+	fmt.Println("Done is running ...")
+	fmt.Println(future)
+}
+```
+
 # Swagger
 
 Build your application and after that, go to http://localhost:5000/swagger/index.html , you to see your Swagger UI.
@@ -225,6 +255,10 @@ Folder Structure:
 |                      |-tasks.repository.go --> This is and example repository file(Create your own repositories)
 |                       
 |-- utils
+|       |
+|       |-async
+|       |    |
+|       |    |-async.go
 |       |
 |       |-errors
 |       |    |

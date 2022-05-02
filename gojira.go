@@ -162,6 +162,16 @@ func main() {
 				fmt.Print(folderName + "/utils")
 				fmt.Println(" Ok")
 
+				//Utils/async
+				os.MkdirAll(folderName+"/utils/async", os.ModePerm)
+				fmt.Print(folderName + "/utils/async")
+				fmt.Println(" Ok")
+
+				//utils/async/async.go
+				os.Create(folderName + "/utils/async/async.go")
+				fmt.Print(folderName + "/utils/async/async.go")
+				fmt.Println(" Ok")
+
 				//Utils/Errors
 				os.MkdirAll(folderName+"/utils/errors", os.ModePerm)
 				fmt.Print(folderName + "/utils/errors")
