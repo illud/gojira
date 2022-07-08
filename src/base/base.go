@@ -72,10 +72,10 @@ func Router() *gin.Engine {
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
 	router.POST("/tasks", tasksController.CreateTasks)
-	router.GET("/tasks", tasksController.GetTasks)
+	router.GET("/tasks-all", tasksController.GetTasks)
 	router.GET("/tasks/:taskId", tasksController.GetOneTasks)
-	router.PUT("/tasks/:id", tasksController.UpdateTasks)
-	router.DELETE("/tasks/:id", tasksController.DeleteTasks)
+	router.PUT("/tasks/:taskId", tasksController.UpdateTasks)
+	router.DELETE("/tasks/:taskId", tasksController.DeleteTasks)
 
 	return router
 }`
@@ -123,7 +123,7 @@ func CreateTasks(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Success 200
-// @Router /tasks [Get]
+// @Router /tasks-all [Get]
 func GetTasks(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"data": tasksUseCase.GetTasks(),
@@ -153,18 +153,39 @@ func GetOneTasks(c *gin.Context) {
 	})
 }
 
+// Put Tasks
+// @Summary Put Tasks
+// @Description Put Tasks
+// @Tags Tasks
+// @Security BearerAuth
+// @Param taskId path int64 true "taskId"
+// @Accept json
+// @Produce json
+// @Param Body body tasksEntity.Task true "Body to update"
+// @Success 200
+// @Router /tasks/{taskId} [Put]
 func UpdateTasks(c *gin.Context) {
 	var task tasksEntity.Task
 	c.ShouldBindJSON(&task)
-	taskId := c.Param("id")
+	taskId := c.Param("taskId")
 
 	c.JSON(200, gin.H{
 		"data": tasksUseCase.UpdateTasks(taskId, task.Title, task.Description),
 	})
 }
 
+// Put Tasks
+// @Summary Delete Tasks
+// @Description Delete Tasks
+// @Tags Tasks
+// @Security BearerAuth
+// @Param taskId path int64 true "taskId"
+// @Accept json
+// @Produce json
+// @Success 200
+// @Router /tasks/{taskId} [Delete]
 func DeleteTasks(c *gin.Context) {
-	taskId := c.Param("id")
+	taskId := c.Param("taskId")
 
 	c.JSON(200, gin.H{
 		"data": tasksUseCase.DeleteTasks(taskId),
@@ -511,7 +532,7 @@ func Create` + strings.Title(moduleName) + `(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Success 200
-// @Router /` + regex.StringToHyphen(moduleName) + ` [Get]
+// @Router /` + regex.StringToHyphen(moduleName) + "-all" + ` [Get]
 func Get` + strings.Title(moduleName) + `(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"data": ` + moduleName + `UseCase.Get` + strings.Title(moduleName) + `(),
@@ -538,10 +559,22 @@ func GetOne` + strings.Title(moduleName) + `(c *gin.Context) {
 	})
 }
 
+// Put ` + strings.Title(moduleName) + `
+// @Summary Put ` + strings.Title(moduleName) + `
+// @Schemes
+// @Description Put ` + strings.Title(moduleName) + `
+// @Tags ` + strings.Title(moduleName) + `
+// @Security BearerAuth
+// @Param ` + moduleName + `Id path int64 true "` + strings.Title(moduleName) + `Id"
+// @Accept json
+// @Produce json
+// @Param Body body ` + moduleName + `Entity.` + strings.Title(moduleName) + ` true "Body to update ` + strings.Title(moduleName) + `"
+// @Success 200
+// @Router /` + regex.StringToHyphen(moduleName) + `/{` + moduleName + `Id} [Put]
 func Update` + strings.Title(moduleName) + `(c *gin.Context) {
 	var ` + moduleName + ` ` + moduleName + `Entity.` + strings.Title(moduleName) + `
 	c.ShouldBindJSON(&` + moduleName + `)
-	` + moduleName + `Id := c.Param("id")
+	` + moduleName + `Id := c.Param("` + moduleName + `Id")
 	` + moduleName + `IdToInt, _ := strconv.ParseInt(` + moduleName + `Id, 10, 64)
 
 	c.JSON(200, gin.H{
@@ -549,8 +582,19 @@ func Update` + strings.Title(moduleName) + `(c *gin.Context) {
 	})
 }
 
+// Delete ` + strings.Title(moduleName) + `
+// @Summary Delete ` + strings.Title(moduleName) + `
+// @Schemes
+// @Description Delete ` + strings.Title(moduleName) + `
+// @Tags ` + strings.Title(moduleName) + `
+// @Security BearerAuth
+// @Param ` + moduleName + `Id path int64 true "` + strings.Title(moduleName) + `Id"
+// @Accept json
+// @Produce json
+// @Success 200
+// @Router /` + regex.StringToHyphen(moduleName) + `/{` + moduleName + `Id} [Delete]
 func Delete` + strings.Title(moduleName) + `(c *gin.Context) {
-	` + moduleName + `Id := c.Param("id")
+	` + moduleName + `Id := c.Param("` + moduleName + `Id")
 	` + moduleName + `IdToInt, _ := strconv.ParseInt(` + moduleName + `Id, 10, 64)
 
 	c.JSON(200, gin.H{
@@ -1019,10 +1063,10 @@ func AppendToRoutingCrud(moduleName string) {
 		if strings.Contains(line, "return router") {
 			lines[i] = ` //` + moduleName + `
 	router.POST("/` + regex.StringToHyphen(moduleName) + `", ` + moduleName + `Controller.Create` + strings.Title(moduleName) + `)
-	router.GET("/` + regex.StringToHyphen(moduleName) + `", ` + moduleName + `Controller.Get` + strings.Title(moduleName) + `)
+	router.GET("/` + regex.StringToHyphen(moduleName) + "-all" + `", ` + moduleName + `Controller.Get` + strings.Title(moduleName) + `)
 	router.GET("/` + regex.StringToHyphen(moduleName) + `/:` + moduleName + `Id", ` + moduleName + `Controller.GetOne` + strings.Title(moduleName) + `)
-	router.PUT("/` + regex.StringToHyphen(moduleName) + `/:id", ` + moduleName + `Controller.Update` + strings.Title(moduleName) + `)
-	router.DELETE("/` + regex.StringToHyphen(moduleName) + `/:id", ` + moduleName + `Controller.Delete` + strings.Title(moduleName) + `)
+	router.PUT("/` + regex.StringToHyphen(moduleName) + `/:` + moduleName + `Id", ` + moduleName + `Controller.Update` + strings.Title(moduleName) + `)
+	router.DELETE("/` + regex.StringToHyphen(moduleName) + `/:` + moduleName + `Id", ` + moduleName + `Controller.Delete` + strings.Title(moduleName) + `)
 
 ` + lines[i] + ``
 		}
