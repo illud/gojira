@@ -54,38 +54,60 @@ gojira
 To create a new gin-gonic with clean architecture project(This includes a crud example with the name of Tasks):
 
 ```
-gojira new --folder yourProjectName
+[x] New project
+[ ] Module
+[ ] Module with crud
+[ ] DB service
+
+Enter Project Name: yourProjectName
 ```
 
 ## Modules
 To create a new module with crud flow:
 
 ```
-gojira module --generate-crud yourModuleName
+[ ] New project
+[ ] Module
+[x] Module with crud
+[ ] DB service
+
+Enter Module Name: yourModuleName
 ```
 
 To create a new module with simple example flow:
 
 ```
-gojira module-simple --generate yourModuleName
+[ ] New project
+[x] Module
+[ ] Module with crud
+[ ] DB service
+
+Enter Module Name: yourModuleName
 ```
 
 ## Database service
 To create a new db service client with Mysql, Gorm or Prisma:
 
+```
+[ ] New project
+[ ] Module
+[ ] Module with crud
+[x] DB service
+```
+
 Mysql - to learn more visit (https://github.com/go-sql-driver/mysql)
 ```
-gojira db --client mysql
+Enter DB(mysql, gorm or prisma) Name: mysql
 ```
 
 Gorm - to learn more visit (https://github.com/jinzhu/gorm)
 ```
-gojira db --client gorm
+Enter DB(mysql, gorm or prisma) Name: gorm
 ```
 
 Prisma - to learn more visit (https://github.com/prisma/prisma-client-go)
 ```
-gojira db --client prisma
+Enter DB(mysql, gorm or prisma) Name: prisma
 ```
 
 ## This will generate a database connection in infraestructure/databases/client.go
