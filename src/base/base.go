@@ -481,7 +481,7 @@ func BaseModuleCrud(moduleName string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(dir)
+	// fmt.Println(dir)
 	var ss []string
 	if runtime.GOOS == "windows" {
 		ss = strings.Split(dir, "\\")
@@ -736,7 +736,7 @@ func BaseModuleSimple(moduleName string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(dir)
+	// fmt.Println(dir)
 	var ss []string
 	if runtime.GOOS == "windows" {
 		ss = strings.Split(dir, "\\")
@@ -1037,7 +1037,7 @@ func AppendToRoutingCrud(moduleName string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(dir)
+	// fmt.Println(dir)
 	var ss []string
 	if runtime.GOOS == "windows" {
 		ss = strings.Split(dir, "\\")
@@ -1083,21 +1083,21 @@ func AppendToRoutingCrud(moduleName string) {
 	if runtime.GOOS == "windows" {
 		installDependencies := exec.Command("cmd", "/c", "go fmt routing/routing.go")
 
-		installDependenciesOut, err := installDependencies.Output()
+		_, err = installDependencies.Output()
 		if err != nil {
 			os.Stderr.WriteString(err.Error())
 		}
-		fmt.Println(string(installDependenciesOut))
+		// fmt.Println(string(installDependenciesOut))
 	}
 
 	if runtime.GOOS == "linux" {
 		installDependencies := exec.Command("sh", "/c", "go fmt routing/routing.go")
 
-		installDependenciesOut, err := installDependencies.Output()
+		_, err = installDependencies.Output()
 		if err != nil {
 			os.Stderr.WriteString(err.Error())
 		}
-		fmt.Println(string(installDependenciesOut))
+		// fmt.Println(string(installDependenciesOut))
 	}
 }
 
@@ -1107,7 +1107,7 @@ func AppendToRoutingSimple(moduleName string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(dir)
+	// fmt.Println(dir)
 	var ss []string
 	if runtime.GOOS == "windows" {
 		ss = strings.Split(dir, "\\")
@@ -1149,21 +1149,21 @@ func AppendToRoutingSimple(moduleName string) {
 	if runtime.GOOS == "windows" {
 		installDependencies := exec.Command("cmd", "/c", "go fmt routing/routing.go")
 
-		installDependenciesOut, err := installDependencies.Output()
+		_, err = installDependencies.Output()
 		if err != nil {
 			os.Stderr.WriteString(err.Error())
 		}
-		fmt.Println(string(installDependenciesOut))
+		// fmt.Println(string(installDependenciesOut))
 	}
 
 	if runtime.GOOS == "linux" {
 		installDependencies := exec.Command("sh", "/c", "go fmt routing/routing.go")
 
-		installDependenciesOut, err := installDependencies.Output()
+		_, err = installDependencies.Output()
 		if err != nil {
 			os.Stderr.WriteString(err.Error())
 		}
-		fmt.Println(string(installDependenciesOut))
+		// fmt.Println(string(installDependenciesOut))
 	}
 }
 
@@ -1173,7 +1173,7 @@ func AppendDbConnectionToMain() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(dir)
+	// fmt.Println(dir)
 	var ss []string
 	if runtime.GOOS == "windows" {
 		ss = strings.Split(dir, "\\")
@@ -1215,20 +1215,20 @@ func AppendDbConnectionToMain() {
 	if runtime.GOOS == "windows" {
 		installDependencies := exec.Command("cmd", "/c", "go fmt main.go")
 
-		installDependenciesOut, err := installDependencies.Output()
+		_, err = installDependencies.Output()
 		if err != nil {
 			os.Stderr.WriteString(err.Error())
 		}
-		fmt.Println(string(installDependenciesOut))
+		// fmt.Println(string(installDependenciesOut))
 	}
 
 	if runtime.GOOS == "linux" {
 		installDependencies := exec.Command("sh", "/c", "go fmt main.go")
 
-		installDependenciesOut, err := installDependencies.Output()
+		_, err = installDependencies.Output()
 		if err != nil {
 			os.Stderr.WriteString(err.Error())
 		}
-		fmt.Println(string(installDependenciesOut))
+		// fmt.Println(string(installDependenciesOut))
 	}
 }
