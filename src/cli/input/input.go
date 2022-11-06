@@ -1,6 +1,5 @@
 package input
 
-// A simple program demonstrating the text input component from the Bubbles
 // component library.
 
 import (

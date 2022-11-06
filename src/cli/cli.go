@@ -1,16 +1,16 @@
 package cli
 
-// A simple example that shows how to retrieve a value from a Bubble Tea
-// program after the Bubble Tea has exited.
-
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"runtime"
 	"strings"
 	"time"
 
+	markdown "github.com/MichaelMure/go-term-markdown"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/saturnavt/gojira/src/base"
 	input "github.com/saturnavt/gojira/src/cli/input"
@@ -767,6 +767,18 @@ func Command() {
 			}
 
 			bar.Add(1)
+		}
+
+		if m.choice == "Documentation" {
+			path, _ := filepath.Abs("README.md")
+			source, err := ioutil.ReadFile(path)
+			if err != nil {
+				panic(err)
+			}
+
+			result := markdown.Render(string(source), 80, 6)
+
+			fmt.Println(string(result))
 		}
 	}
 }

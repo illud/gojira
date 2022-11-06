@@ -63,23 +63,23 @@ Enter Project Name: yourProjectName
 ```
 
 ## Modules
-To create a new module with crud flow:
-
-```
-[ ] New project
-[ ] Module
-[x] Module with crud
-[ ] DB service
-
-Enter Module Name: yourModuleName
-```
-
 To create a new module with simple example flow:
 
 ```
 [ ] New project
 [x] Module
 [ ] Module with crud
+[ ] DB service
+
+Enter Module Name: yourModuleName
+```
+
+To create a new module with crud flow:
+
+```
+[ ] New project
+[ ] Module
+[x] Module with crud
 [ ] DB service
 
 Enter Module Name: yourModuleName

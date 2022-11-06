@@ -3,8 +3,10 @@ module github.com/saturnavt/gojira
 go 1.16
 
 require (
+	github.com/MichaelMure/go-term-markdown v0.1.4 // indirect
 	github.com/charmbracelet/bubbles v0.14.0
 	github.com/charmbracelet/bubbletea v0.22.1
+	github.com/gomarkdown/markdown v0.0.0-20191123064959-2c17d62f5098 // indirect
 	github.com/howeyc/gopass v0.0.0-20210920133722-c8aef6fb66ef // indirect
 	github.com/mattn/go-localereader v0.0.1 // indirect
 	github.com/schollz/progressbar v1.0.0 // indirect
