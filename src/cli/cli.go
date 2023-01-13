@@ -432,7 +432,7 @@ func Command() {
 
 		}
 
-		if m.choice == "Module" {
+		if m.choice == "Module with crud" {
 			fmt.Printf("\n")
 			fmt.Println("Enter Module Name: ")
 			moduleName := input.Input()
@@ -546,7 +546,7 @@ func Command() {
 			time.Sleep(40 * time.Millisecond)
 		}
 
-		if m.choice == "Module with crud" {
+		if m.choice == "Module" {
 			fmt.Printf("\n")
 			fmt.Println("Enter Module Name: ")
 			moduleName := input.Input()
