@@ -95,237 +95,172 @@ func Command() {
 
 			fmt.Printf("\n")
 			fmt.Println("Enter Project Name: ")
-			folderName := input.Input()
-			// fmt.Println(folderName)
+			folder := input.Input()
+
+			folderName := strings.ToLower(folder)
 
 			fmt.Printf("\n")
 			//Project
 			bar := progressbar.Default(35)
 
 			os.MkdirAll(folderName, os.ModePerm)
-			// //fmt.Print(folderName)
-			// //fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			os.Create(folderName + "/main.go")
-			// //fmt.Print(folderName + "/main.go")
-			// //fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//Routing
 			os.MkdirAll(folderName+"/routing", os.ModePerm)
-			// //fmt.Print(folderName + "/routing")
-			// //fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			os.Create(folderName + "/routing/routing.go")
-			// //fmt.Print(folderName + "/routing/routing.go")
-			// //fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//Controller
 			os.MkdirAll(folderName+"/controller", os.ModePerm)
-			// //fmt.Print(folderName + "/controller")
-			// //fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//Controller/Tasks
 			os.MkdirAll(folderName+"/controller/tasks", os.ModePerm)
-			// //fmt.Print(folderName + "/controller/tasks")
-			// //fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//Controller/Tasks/tasks.controller.go
 			os.Create(folderName + "/controller/tasks/tasks.controller.go")
-			// //fmt.Print(folderName + "/controller/tasks/tasks.controller.go")
-			// //fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//Domain
 			os.MkdirAll(folderName+"/domain", os.ModePerm)
-			// //fmt.Print(folderName + "/domain")
-			// //fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
-			//useCase
-			os.MkdirAll(folderName+"/domain/useCase", os.ModePerm)
-			// //fmt.Print(folderName + "/domain/useCase")
-			// //fmt.Println(" Ok")
+			//usecase
+			os.MkdirAll(folderName+"/domain/usecase", os.ModePerm)
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
-			//useCase/tasks
-			os.MkdirAll(folderName+"/domain/useCase/tasks", os.ModePerm)
-			// //fmt.Print(folderName + "/domain/useCase/tasks")
-			// //fmt.Println(" Ok")
+			//usecase/tasks
+			os.MkdirAll(folderName+"/domain/usecase/tasks", os.ModePerm)
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
-			//useCase/tasks/tasks-useCase.go
-			os.Create(folderName + "/domain/useCase/tasks/tasks.useCase.go")
-			// //fmt.Print(folderName + "/domain/useCase/tasks/tasks.useCase.go")
-			// //fmt.Println(" Ok")
+			//usecase/tasks/tasks.usecase.go
+			os.Create(folderName + "/domain/usecase/tasks/tasks.usecase.go")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//Infraestructure
 			os.MkdirAll(folderName+"/infraestructure", os.ModePerm)
-			// //fmt.Print(folderName + "/infraestructure")
-			// //fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//Databases
 			os.MkdirAll(folderName+"/infraestructure/databases", os.ModePerm)
-			// //fmt.Print(folderName + "/infraestructure/databases")
-			// //fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//Databases/client.go
 			os.Create(folderName + "/infraestructure/databases/client.go")
-			// //fmt.Print(folderName + "/infraestructure/databases/client.go")
-			// //fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//Entities
 			os.MkdirAll(folderName+"/infraestructure/entities", os.ModePerm)
-			// //fmt.Print(folderName + "/infraestructure/entities")
-			// //fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//Entities/tasks
 			os.MkdirAll(folderName+"/infraestructure/entities/tasks", os.ModePerm)
-			// //fmt.Print(folderName + "/infraestructure/entities/tasks")
-			// //fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//Entities/tasks.entity.go
 			os.Create(folderName + "/infraestructure/entities/tasks/tasks.entity.go")
-			// //fmt.Print(folderName + "/infraestructure/entities/tasks/tasks.entity.go")
-			// //fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//Repository
 			os.MkdirAll(folderName+"/infraestructure/repository", os.ModePerm)
-			// //fmt.Print(folderName + "/infraestructure/repository")
-			// //fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//Repository/tasks
 			os.MkdirAll(folderName+"/infraestructure/repository/tasks", os.ModePerm)
-			// //fmt.Print(folderName + "/infraestructure/repository/tasks")
-			// //fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//Repository/tasks/tasks-repository.go
 			os.Create(folderName + "/infraestructure/repository/tasks/tasks.repository.go")
-			// //fmt.Print(folderName + "/infraestructure/repository/tasks/tasks.repository.go")
-			// //fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//Utils
 			os.MkdirAll(folderName+"/utils", os.ModePerm)
-			// //fmt.Print(folderName + "/utils")
-			// //fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//Utils/async
 			os.MkdirAll(folderName+"/utils/async", os.ModePerm)
-			// //fmt.Print(folderName + "/utils/async")
-			// //fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//utils/async/async.go
 			os.Create(folderName + "/utils/async/async.go")
-			// //fmt.Print(folderName + "/utils/async/async.go")
-			// //fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//Utils/Errors
 			os.MkdirAll(folderName+"/utils/errors", os.ModePerm)
-			// //fmt.Print(folderName + "/utils/errors")
-			// //fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//utils/errors/errors.go
 			os.Create(folderName + "/utils/errors/errors.go")
-			// //fmt.Print(folderName + "/utils/errors/errors.go")
-			// //fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//SERVICES
 			os.MkdirAll(folderName+"/utils/services", os.ModePerm)
-			// //fmt.Print(folderName + "/utils/services")
-			// //fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//SERVICES/Jwt
 			os.MkdirAll(folderName+"/utils/services/jwt", os.ModePerm)
-			// //fmt.Print(folderName + "/utils/services/jwt")
-			// //fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//SERVICES/Jwt/jwt.go
 			os.Create(folderName + "/utils/services/jwt/jwt.go")
-			// //fmt.Print(folderName + "/utils/services/jwt/jwt.go")
-			// //fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//SERVICES/bcrypt
 			os.MkdirAll(folderName+"/utils/services/bcrypt", os.ModePerm)
-			// //fmt.Print(folderName + "/utils/services/bcrypt")
-			// //fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//SERVICES/bcrypt/bcrypt.go
 			os.Create(folderName + "/utils/services/bcrypt/bcrypt.go")
-			// //fmt.Print(folderName + "/utils/services/bcrypt/bcrypt.go")
-			// //fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//TEST FOLDER
 			os.MkdirAll(folderName+"/test", os.ModePerm)
-			// //fmt.Print(folderName + "/test")
-			// //fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//TEST TASKS FOLDER
 			os.MkdirAll(folderName+"/test/tasks", os.ModePerm)
-			// //fmt.Print(folderName + "/test/tasks")
-			// //fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
-			os.Create(folderName + "/test/tasks/getTasks_test.go")
-			// //fmt.Print(folderName + "/test/tasks/getTasks_test.go")
-			// //fmt.Println(" Ok")
+			os.Create(folderName + "/test/tasks/gettasks_test.go")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
@@ -435,78 +370,60 @@ func Command() {
 		if m.choice == "Module with crud" {
 			fmt.Printf("\n")
 			fmt.Println("Enter Module Name: ")
-			moduleName := input.Input()
+			module := input.Input()
+
+			moduleName := strings.ToLower(module)
 
 			bar := progressbar.Default(13)
 
 			//Controller/currentDirName
 			os.MkdirAll("controller/"+moduleName, os.ModePerm)
-			//fmt.Print("controller/" + moduleName)
-			//fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//Controller/moduleName/moduleName-controller.go
 			os.Create("controller/" + moduleName + "/" + moduleName + ".controller.go")
-			//fmt.Print("controller/" + moduleName + "/" + moduleName + ".controller.go")
-			//fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
-			//useCase
-			//useCase/moduleName
-			os.MkdirAll("domain/useCase/"+moduleName, os.ModePerm)
-			//fmt.Print("domain/useCase/" + moduleName)
-			//fmt.Println(" Ok")
+			//usecase
+			//usecase/moduleName
+			os.MkdirAll("domain/usecase/"+moduleName, os.ModePerm)
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
-			//useCase/moduleName/moduleName-useCase.go
-			os.Create("domain/useCase/" + moduleName + "/" + moduleName + ".useCase.go")
-			//fmt.Print("domain/useCase/" + moduleName + "/" + moduleName + ".useCase.go")
-			//fmt.Println(" Ok")
+			//usecase/moduleName/moduleName.usecase.go
+			os.Create("domain/usecase/" + moduleName + "/" + moduleName + ".usecase.go")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//Repository
 			//Repository/moduleName
 			os.MkdirAll("infraestructure/repository/"+moduleName, os.ModePerm)
-			//fmt.Print("infraestructure/repository/" + moduleName)
-			//fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//Repository/moduleName/moduleName-repository.go
 			os.Create("infraestructure/repository/" + moduleName + "/" + moduleName + ".repository.go")
-			//fmt.Print("infraestructure/repository/" + moduleName + "/" + moduleName + ".repository.go")
-			//fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//Entities/moduleName
 			os.MkdirAll("infraestructure/entities/"+moduleName+"", os.ModePerm)
-			//fmt.Print("infraestructure/entities/" + moduleName + "")
-			//fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//Entities/moduleName.entity.go
 			os.Create("infraestructure/entities/" + moduleName + "/" + moduleName + ".entity.go")
-			//fmt.Print("infraestructure/entities/" + moduleName + "/" + moduleName + ".entity.go")
-			//fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//TEST FOLDER
 			os.MkdirAll("test/"+moduleName, os.ModePerm)
-			//fmt.Print("test/" + moduleName)
-			//fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
-			os.Create("test/" + moduleName + "/get" + strings.Title(moduleName) + "_test.go")
-			//fmt.Print("test/" + moduleName + "/get" + strings.Title(moduleName) + "_test.go")
-			//fmt.Println(" Ok")
+			os.Create("test/" + moduleName + "/get" + moduleName + "_test.go")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
@@ -549,78 +466,60 @@ func Command() {
 		if m.choice == "Module" {
 			fmt.Printf("\n")
 			fmt.Println("Enter Module Name: ")
-			moduleName := input.Input()
+			module := input.Input()
+
+			moduleName := strings.ToLower(module)
 
 			bar := progressbar.Default(13)
 
 			//Controller/currentDirName
 			os.MkdirAll("controller/"+moduleName, os.ModePerm)
-			//fmt.Print("controller/" + moduleName)
-			//fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//Controller/moduleName/moduleName-controller.go
 			os.Create("controller/" + moduleName + "/" + moduleName + ".controller.go")
-			//fmt.Print("controller/" + moduleName + "/" + moduleName + ".controller.go")
-			//fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
-			//useCase
-			//useCase/moduleName
-			os.MkdirAll("domain/useCase/"+moduleName, os.ModePerm)
-			//fmt.Print("domain/useCase/" + moduleName)
-			//fmt.Println(" Ok")
+			//usecase
+			//usecase/moduleName
+			os.MkdirAll("domain/usecase/"+moduleName, os.ModePerm)
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
-			//useCase/moduleName/moduleName-useCase.go
-			os.Create("domain/useCase/" + moduleName + "/" + moduleName + ".useCase.go")
-			//fmt.Print("domain/useCase/" + moduleName + "/" + moduleName + ".useCase.go")
-			//fmt.Println(" Ok")
+			//usecase/moduleName/moduleName-usecase.go
+			os.Create("domain/usecase/" + moduleName + "/" + moduleName + ".usecase.go")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//Repository
 			//Repository/moduleName
 			os.MkdirAll("infraestructure/repository/"+moduleName, os.ModePerm)
-			//fmt.Print("infraestructure/repository/" + moduleName)
-			//fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//Repository/moduleName/moduleName-repository.go
 			os.Create("infraestructure/repository/" + moduleName + "/" + moduleName + ".repository.go")
-			//fmt.Print("infraestructure/repository/" + moduleName + "/" + moduleName + ".repository.go")
-			//fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//Entities/moduleName
 			os.MkdirAll("infraestructure/entities/"+moduleName+"", os.ModePerm)
-			//fmt.Print("infraestructure/entities/" + moduleName + "")
-			//fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//Entities/moduleName.entity.go
 			os.Create("infraestructure/entities/" + moduleName + "/" + moduleName + ".entity.go")
-			//fmt.Print("infraestructure/entities/" + moduleName + "/" + moduleName + ".entity.go")
-			//fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//TEST FOLDER
 			os.MkdirAll("test/"+moduleName, os.ModePerm)
-			//fmt.Print("test/" + moduleName)
-			//fmt.Println(" Ok")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
-			os.Create("test/" + moduleName + "/get" + strings.Title(moduleName) + "_test.go")
-			//fmt.Print("test/" + moduleName + "/get" + strings.Title(moduleName) + "_test.go")
-			//fmt.Println(" Ok")
+			os.Create("test/" + moduleName + "/get" + moduleName + "_test.go")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
@@ -677,12 +576,8 @@ func Command() {
 				base.BaseDbClient("prisma")
 				//create/schema.prisma
 				os.MkdirAll("infraestructure/databases/prisma/db", os.ModePerm)
-				//fmt.Print("infraestructure/databases/prisma/db")
-				//fmt.Println(" Ok")
 
 				os.Create("schema.prisma")
-				//fmt.Print("schema.prisma")
-				//fmt.Println(" Ok")
 
 				fmt.Println("")
 

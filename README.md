@@ -252,11 +252,11 @@ Folder Structure:
 |            
 |-- domain
 |      |
-|      |-useCase
+|      |-usecase
 |            |
 |            |-tasks --> This is and example package(Create your own packages)
 |                | 
-|                |-task.useCase.go --> This is and example useCase file(Create your own useCases)
+|                |-task.usecase.go --> This is and example usecase file(Create your own usecases)
 |
 |-- infraestructure
 |           |

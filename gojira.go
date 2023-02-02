@@ -16,7 +16,7 @@ func main() {
 | |__| | (_) | | | | | (_| |
  \_____|\___/| |_|_|  \__ _|
 	    _/ |            
-	   |__/ Created by Alejandro Castillo Valdes
+	   |__/ Created by Alejandro Castillo Valdés
 `
 
 	fmt.Println(gojira)

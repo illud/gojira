@@ -90,7 +90,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	tasksUseCase "github.com/` + folderName + `/domain/useCase/tasks"
+	tasksUseCase "github.com/` + folderName + `/domain/usecase/tasks"
 	tasksEntity "github.com/` + folderName + `/infraestructure/entities/tasks"
 )
 
@@ -194,7 +194,7 @@ func DeleteTasks(c *gin.Context) {
 	taskControllerBytes := []byte(taskControllerString)
 	ioutil.WriteFile(folderName+"/controller/tasks/tasks.controller.go", taskControllerBytes, 0)
 
-	//Add data to task.useCase.go
+	//Add data to task.usecase.go
 	taskUseCaseString :=
 		`package tasks
 
@@ -222,7 +222,7 @@ func DeleteTasks(taskId string) string {
 	return tasksRepository.Delete(taskId)
 }`
 	taskUseCaseBytes := []byte(taskUseCaseString)
-	ioutil.WriteFile(folderName+"/domain/useCase/tasks/tasks.useCase.go", taskUseCaseBytes, 0)
+	ioutil.WriteFile(folderName+"/domain/usecase/tasks/tasks.usecase.go", taskUseCaseBytes, 0)
 
 	//Add data to task.repository.go
 	taskRepositoryString :=
@@ -499,7 +499,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	` + moduleName + `UseCase "github.com/` + currentDirName + `/domain/useCase/` + moduleName + `"
+	` + moduleName + `UseCase "github.com/` + currentDirName + `/domain/usecase/` + moduleName + `"
 	` + moduleName + `Entity "github.com/` + currentDirName + `/infraestructure/entities/` + moduleName + `"
 )
 
@@ -604,7 +604,7 @@ func Delete` + strings.Title(moduleName) + `(c *gin.Context) {
 	controllerBytes := []byte(controllerString)
 	ioutil.WriteFile("controller/"+moduleName+"/"+moduleName+".controller.go", controllerBytes, 0)
 
-	//Add data to useCase.go
+	//Add data to usecase.go
 	useCaseString :=
 		`package ` + moduleName + `
 
@@ -632,7 +632,7 @@ func Delete` + strings.Title(moduleName) + `(` + moduleName + `Id int64) string 
 	return ` + moduleName + `Repository.Delete(` + moduleName + `Id)
 }`
 	useCaseBytes := []byte(useCaseString)
-	ioutil.WriteFile("domain/useCase/"+moduleName+"/"+moduleName+".useCase.go", useCaseBytes, 0)
+	ioutil.WriteFile("domain/usecase/"+moduleName+"/"+moduleName+".usecase.go", useCaseBytes, 0)
 
 	//Add data to repository.go
 	repositoryString :=
@@ -727,7 +727,7 @@ func TestGet` + strings.Title(moduleName) + `(t *testing.T) {
 }`
 	//Add data to test
 	testBytes := []byte(testString)
-	ioutil.WriteFile("test/"+moduleName+"/get"+strings.Title(moduleName)+"_test.go", testBytes, 0)
+	ioutil.WriteFile("test/"+moduleName+"/get"+moduleName+"_test.go", testBytes, 0)
 }
 
 func BaseModuleSimple(moduleName string) {
@@ -752,7 +752,7 @@ func BaseModuleSimple(moduleName string) {
 
 import (
 	"github.com/gin-gonic/gin"
-	` + moduleName + `UseCase "github.com/` + currentDirName + `/domain/useCase/` + moduleName + `"
+	` + moduleName + `UseCase "github.com/` + currentDirName + `/domain/usecase/` + moduleName + `"
 	_ "github.com/` + currentDirName + `/infraestructure/entities/` + moduleName + `" // Change _ for ` + moduleName + `Entity or something that works for you
 )
 
@@ -774,7 +774,7 @@ func Get` + strings.Title(moduleName) + `(c *gin.Context) {
 	controllerBytes := []byte(controllerString)
 	ioutil.WriteFile("controller/"+moduleName+"/"+moduleName+".controller.go", controllerBytes, 0)
 
-	//Add data to useCase.go
+	//Add data to usecase.go
 	useCaseString :=
 		`package ` + moduleName + `
 
@@ -786,7 +786,7 @@ func Get` + strings.Title(moduleName) + `() string {
 	return ` + moduleName + `Repository.FindAll()
 }`
 	useCaseBytes := []byte(useCaseString)
-	ioutil.WriteFile("domain/useCase/"+moduleName+"/"+moduleName+".useCase.go", useCaseBytes, 0)
+	ioutil.WriteFile("domain/usecase/"+moduleName+"/"+moduleName+".usecase.go", useCaseBytes, 0)
 
 	//Add data to repository.go
 	repositoryString :=
