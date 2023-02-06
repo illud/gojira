@@ -61,6 +61,7 @@ func (m model) View() string {
 	s := strings.Builder{}
 	s.WriteString("Choose a option\n\n")
 	s.WriteString("up/down: to select\n\n")
+	s.WriteString("please use snake_case when the module name consist of two or more words\n\n")
 
 	for i := 0; i < len(choices); i++ {
 		if m.cursor == i {
@@ -372,7 +373,9 @@ func Command() {
 			fmt.Println("Enter Module Name: ")
 			module := input.Input()
 
-			moduleName := strings.ToLower(module)
+			moduleNameNoSnakeCase := strings.Replace(module, "_", "", -1)
+			moduleName := strings.ToLower(moduleNameNoSnakeCase)
+			moduleNameSnakeCase := strings.ToLower(module)
 
 			bar := progressbar.Default(13)
 
@@ -382,7 +385,7 @@ func Command() {
 			time.Sleep(40 * time.Millisecond)
 
 			//Controller/moduleName/moduleName-controller.go
-			os.Create("controller/" + moduleName + "/" + moduleName + ".controller.go")
+			os.Create("controller/" + moduleName + "/" + moduleNameSnakeCase + ".controller.go")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
@@ -393,7 +396,7 @@ func Command() {
 			time.Sleep(40 * time.Millisecond)
 
 			//usecase/moduleName/moduleName.usecase.go
-			os.Create("domain/usecase/" + moduleName + "/" + moduleName + ".usecase.go")
+			os.Create("domain/usecase/" + moduleName + "/" + moduleNameSnakeCase + ".usecase.go")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
@@ -404,7 +407,7 @@ func Command() {
 			time.Sleep(40 * time.Millisecond)
 
 			//Repository/moduleName/moduleName-repository.go
-			os.Create("infraestructure/repository/" + moduleName + "/" + moduleName + ".repository.go")
+			os.Create("infraestructure/repository/" + moduleName + "/" + moduleNameSnakeCase + ".repository.go")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
@@ -414,7 +417,7 @@ func Command() {
 			time.Sleep(40 * time.Millisecond)
 
 			//Entities/moduleName.entity.go
-			os.Create("infraestructure/entities/" + moduleName + "/" + moduleName + ".entity.go")
+			os.Create("infraestructure/entities/" + moduleName + "/" + moduleNameSnakeCase + ".entity.go")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
@@ -423,12 +426,12 @@ func Command() {
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
-			os.Create("test/" + moduleName + "/get" + moduleName + "_test.go")
+			os.Create("test/" + moduleName + "/get_" + moduleNameSnakeCase + "_test.go")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//Generates module with crud data
-			base.BaseModuleCrud(moduleName)
+			base.BaseModuleCrud(moduleName, moduleNameSnakeCase)
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
@@ -468,7 +471,9 @@ func Command() {
 			fmt.Println("Enter Module Name: ")
 			module := input.Input()
 
-			moduleName := strings.ToLower(module)
+			moduleNameNoSnakeCase := strings.Replace(module, "_", "", -1)
+			moduleName := strings.ToLower(moduleNameNoSnakeCase)
+			moduleNameSnakeCase := strings.ToLower(module)
 
 			bar := progressbar.Default(13)
 
@@ -478,7 +483,7 @@ func Command() {
 			time.Sleep(40 * time.Millisecond)
 
 			//Controller/moduleName/moduleName-controller.go
-			os.Create("controller/" + moduleName + "/" + moduleName + ".controller.go")
+			os.Create("controller/" + moduleName + "/" + moduleNameSnakeCase + ".controller.go")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
@@ -489,7 +494,7 @@ func Command() {
 			time.Sleep(40 * time.Millisecond)
 
 			//usecase/moduleName/moduleName-usecase.go
-			os.Create("domain/usecase/" + moduleName + "/" + moduleName + ".usecase.go")
+			os.Create("domain/usecase/" + moduleName + "/" + moduleNameSnakeCase + ".usecase.go")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
@@ -500,7 +505,7 @@ func Command() {
 			time.Sleep(40 * time.Millisecond)
 
 			//Repository/moduleName/moduleName-repository.go
-			os.Create("infraestructure/repository/" + moduleName + "/" + moduleName + ".repository.go")
+			os.Create("infraestructure/repository/" + moduleName + "/" + moduleNameSnakeCase + ".repository.go")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
@@ -510,7 +515,7 @@ func Command() {
 			time.Sleep(40 * time.Millisecond)
 
 			//Entities/moduleName.entity.go
-			os.Create("infraestructure/entities/" + moduleName + "/" + moduleName + ".entity.go")
+			os.Create("infraestructure/entities/" + moduleName + "/" + moduleNameSnakeCase + ".entity.go")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
@@ -519,12 +524,12 @@ func Command() {
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
-			os.Create("test/" + moduleName + "/get" + moduleName + "_test.go")
+			os.Create("test/" + moduleName + "/get_" + moduleNameSnakeCase + "_test.go")
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
 			//Generates module data in file
-			base.BaseModuleSimple(moduleName)
+			base.BaseModuleSimple(moduleName, moduleNameSnakeCase)
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 

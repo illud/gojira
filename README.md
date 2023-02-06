@@ -59,11 +59,12 @@ To create a new gin-gonic with clean architecture project(This includes a crud e
 [ ] Module with crud
 [ ] DB service
 
-Enter Project Name: yourProjectName
+Enter Project Name: yourprojectname
 ```
 
 ## Modules
 To create a new module with simple example flow:
+please use snake_case when the module name consist of two or more words
 
 ```
 [ ] New project
@@ -71,18 +72,18 @@ To create a new module with simple example flow:
 [ ] Module with crud
 [ ] DB service
 
-Enter Module Name: yourModuleName
+Enter Module Name: your_module_name
 ```
 
 To create a new module with crud flow:
-
+please use snake_case when the module name consist of two or more words
 ```
 [ ] New project
 [ ] Module
 [x] Module with crud
 [ ] DB service
 
-Enter Module Name: yourModuleName
+Enter Module Name: your_module_name
 ```
 
 ## Database service

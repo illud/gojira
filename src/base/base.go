@@ -475,7 +475,7 @@ func TestGetTasks(t *testing.T) {
 	ioutil.WriteFile(folderName+"/test/tasks/getTasks_test.go", tasksTestBytes, 0)
 }
 
-func BaseModuleCrud(moduleName string) {
+func BaseModuleCrud(moduleName string, moduleNameSnakeCase string) {
 
 	dir, err := os.Getwd()
 	if err != nil {
@@ -602,7 +602,7 @@ func Delete` + strings.Title(moduleName) + `(c *gin.Context) {
 	})
 }`
 	controllerBytes := []byte(controllerString)
-	ioutil.WriteFile("controller/"+moduleName+"/"+moduleName+".controller.go", controllerBytes, 0)
+	ioutil.WriteFile("controller/"+moduleName+"/"+moduleNameSnakeCase+".controller.go", controllerBytes, 0)
 
 	//Add data to usecase.go
 	useCaseString :=
@@ -632,7 +632,7 @@ func Delete` + strings.Title(moduleName) + `(` + moduleName + `Id int64) string 
 	return ` + moduleName + `Repository.Delete(` + moduleName + `Id)
 }`
 	useCaseBytes := []byte(useCaseString)
-	ioutil.WriteFile("domain/usecase/"+moduleName+"/"+moduleName+".usecase.go", useCaseBytes, 0)
+	ioutil.WriteFile("domain/usecase/"+moduleName+"/"+moduleNameSnakeCase+".usecase.go", useCaseBytes, 0)
 
 	//Add data to repository.go
 	repositoryString :=
@@ -664,7 +664,7 @@ func Delete(` + moduleName + `Id int64) string {
 	return "` + strings.Title(moduleName) + ` deleted"
 }`
 	repositoryBytes := []byte(repositoryString)
-	ioutil.WriteFile("infraestructure/repository/"+moduleName+"/"+moduleName+".repository.go", repositoryBytes, 0)
+	ioutil.WriteFile("infraestructure/repository/"+moduleName+"/"+moduleNameSnakeCase+".repository.go", repositoryBytes, 0)
 
 	//Add data to moduleName.entity.go
 	entitiesString :=
@@ -674,7 +674,7 @@ type ` + strings.Title(moduleName) + ` struct {
 	Id    int
 }`
 	entitiesBytes := []byte(entitiesString)
-	ioutil.WriteFile("infraestructure/entities/"+moduleName+"/"+moduleName+".entity.go", entitiesBytes, 0)
+	ioutil.WriteFile("infraestructure/entities/"+moduleName+"/"+moduleNameSnakeCase+".entity.go", entitiesBytes, 0)
 
 	// TEST
 	testString :=
@@ -727,10 +727,10 @@ func TestGet` + strings.Title(moduleName) + `(t *testing.T) {
 }`
 	//Add data to test
 	testBytes := []byte(testString)
-	ioutil.WriteFile("test/"+moduleName+"/get"+moduleName+"_test.go", testBytes, 0)
+	ioutil.WriteFile("test/"+moduleName+"/get_"+moduleNameSnakeCase+"_test.go", testBytes, 0)
 }
 
-func BaseModuleSimple(moduleName string) {
+func BaseModuleSimple(moduleName string, moduleNameSnakeCase string) {
 
 	dir, err := os.Getwd()
 	if err != nil {
@@ -772,7 +772,7 @@ func Get` + strings.Title(moduleName) + `(c *gin.Context) {
 	})
 }`
 	controllerBytes := []byte(controllerString)
-	ioutil.WriteFile("controller/"+moduleName+"/"+moduleName+".controller.go", controllerBytes, 0)
+	ioutil.WriteFile("controller/"+moduleName+"/"+moduleNameSnakeCase+".controller.go", controllerBytes, 0)
 
 	//Add data to usecase.go
 	useCaseString :=
@@ -786,7 +786,7 @@ func Get` + strings.Title(moduleName) + `() string {
 	return ` + moduleName + `Repository.FindAll()
 }`
 	useCaseBytes := []byte(useCaseString)
-	ioutil.WriteFile("domain/usecase/"+moduleName+"/"+moduleName+".usecase.go", useCaseBytes, 0)
+	ioutil.WriteFile("domain/usecase/"+moduleName+"/"+moduleNameSnakeCase+".usecase.go", useCaseBytes, 0)
 
 	//Add data to repository.go
 	repositoryString :=
@@ -796,7 +796,7 @@ func FindAll() string {
 	return "{id: 1, title: '` + moduleName + ` title'}"
 }`
 	repositoryBytes := []byte(repositoryString)
-	ioutil.WriteFile("infraestructure/repository/"+moduleName+"/"+moduleName+".repository.go", repositoryBytes, 0)
+	ioutil.WriteFile("infraestructure/repository/"+moduleName+"/"+moduleNameSnakeCase+".repository.go", repositoryBytes, 0)
 
 	//Add data to moduleName.entity.go
 	entitiesString :=
@@ -806,7 +806,7 @@ type ` + strings.Title(moduleName) + ` struct {
 
 }`
 	entitiesBytes := []byte(entitiesString)
-	ioutil.WriteFile("infraestructure/entities/"+moduleName+"/"+moduleName+".entity.go", entitiesBytes, 0)
+	ioutil.WriteFile("infraestructure/entities/"+moduleName+"/"+moduleNameSnakeCase+".entity.go", entitiesBytes, 0)
 
 	// TEST
 	testString :=
@@ -859,7 +859,7 @@ func TestGet` + strings.Title(moduleName) + `(t *testing.T) {
 }`
 	//Add data to test
 	testBytes := []byte(testString)
-	ioutil.WriteFile("test/"+moduleName+"/get"+strings.Title(moduleName)+"_test.go", testBytes, 0)
+	ioutil.WriteFile("test/"+moduleName+"/get_"+moduleNameSnakeCase+"_test.go", testBytes, 0)
 }
 
 func BaseDbClient(clientName string) {
