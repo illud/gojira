@@ -18,8 +18,11 @@ func BaseData(folderName string) {
 		`package main
 
 import (
+	"fmt"
+	"strconv"
 	//Uncomment next line when you want to connect to a database
 	//db "github.com/` + folderName + `/infraestructure/databases"
+	env "github.com/` + folderName + `/env"
 	router "github.com/` + folderName + `/routing"
 )
 
@@ -40,7 +43,14 @@ func main() {
 	//Connect to database
 	//db.Connect()
 
-	router.Router().Run(":5000")
+	//Load .env port
+	port := strconv.Itoa(env.Load().PORT)
+
+	if port == "" {
+		fmt.Println("$PORT must be set")
+	}
+
+	router.Router().Run(":" + port)
 }`
 	mainBytes := []byte(mainString)
 	ioutil.WriteFile(folderName+"/main.go", mainBytes, 0)
@@ -81,6 +91,48 @@ func Router() *gin.Engine {
 }`
 	routingBytes := []byte(routingString)
 	ioutil.WriteFile(folderName+"/routing/routing.go", routingBytes, 0)
+
+	//Add data to .env
+	dotEnvString :=
+		`PORT = 5000
+
+VERSION = 1.0.0`
+
+	dotEnvBytes := []byte(dotEnvString)
+	ioutil.WriteFile(folderName+"/.env", dotEnvBytes, 0)
+
+	//Add data to env.go
+	envString :=
+		`package env
+
+import (
+	"os"
+	"strconv"
+
+	"github.com/joho/godotenv"
+)
+
+//Add here your .env data
+type Env struct {
+	PORT                   int
+	VERSION                string
+}
+
+func Load() Env {
+	godotenv.Load() //This loads your .env
+
+	//Converts port string to int
+	port, _ := strconv.Atoi(os.Getenv("PORT"))
+
+	//Returns .env data int Env struct
+	return Env{
+		PORT:                   port,
+		VERSION:      os.Getenv("VERSION"),
+	}
+}`
+
+	envBytes := []byte(envString)
+	ioutil.WriteFile(folderName+"/env/env.go", envBytes, 0)
 
 	//Add data to task-controller.go
 	taskControllerString :=
@@ -1031,7 +1083,7 @@ model Tasks {
 	ioutil.WriteFile("infraestructure/databases/client.go", clientBytes, 0)
 }
 
-//ADD controller to routing.go crud
+// ADD controller to routing.go crud
 func AppendToRoutingCrud(moduleName string) {
 	dir, err := os.Getwd()
 	if err != nil {
@@ -1101,7 +1153,7 @@ func AppendToRoutingCrud(moduleName string) {
 	}
 }
 
-//ADD controller to routing.go simple
+// ADD controller to routing.go simple
 func AppendToRoutingSimple(moduleName string) {
 	dir, err := os.Getwd()
 	if err != nil {
@@ -1167,7 +1219,7 @@ func AppendToRoutingSimple(moduleName string) {
 	}
 }
 
-//ADD db conection to main.go
+// ADD db conection to main.go
 func AppendDbConnectionToMain() {
 	dir, err := os.Getwd()
 	if err != nil {

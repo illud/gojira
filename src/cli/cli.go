@@ -121,6 +121,20 @@ func Command() {
 			bar.Add(1)
 			time.Sleep(40 * time.Millisecond)
 
+			//.env
+			os.Create(folderName + "/.env")
+			bar.Add(1)
+			time.Sleep(40 * time.Millisecond)
+
+			//Env
+			os.MkdirAll(folderName+"/env", os.ModePerm)
+			bar.Add(1)
+			time.Sleep(40 * time.Millisecond)
+
+			os.Create(folderName + "/env/env.go")
+			bar.Add(1)
+			time.Sleep(40 * time.Millisecond)
+
 			//Controller
 			os.MkdirAll(folderName+"/controller", os.ModePerm)
 			bar.Add(1)
