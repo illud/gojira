@@ -82,7 +82,7 @@ func Router() *gin.Engine {
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
 	router.POST("/tasks", tasksController.CreateTasks)
-	router.GET("/tasks-all", tasksController.GetTasks)
+	router.GET("/tasks", tasksController.GetTasks)
 	router.GET("/tasks/:taskId", tasksController.GetOneTasks)
 	router.PUT("/tasks/:taskId", tasksController.UpdateTasks)
 	router.DELETE("/tasks/:taskId", tasksController.DeleteTasks)
@@ -175,7 +175,7 @@ func CreateTasks(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Success 200
-// @Router /tasks-all [Get]
+// @Router /tasks [Get]
 func GetTasks(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"data": tasksUseCase.GetTasks(),
@@ -584,7 +584,7 @@ func Create` + strings.Title(moduleName) + `(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Success 200
-// @Router /` + regex.StringToHyphen(moduleName) + "-all" + ` [Get]
+// @Router /` + regex.StringToHyphen(moduleName) + ` [Get]
 func Get` + strings.Title(moduleName) + `(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"data": ` + moduleName + `UseCase.Get` + strings.Title(moduleName) + `(),
@@ -1115,7 +1115,7 @@ func AppendToRoutingCrud(moduleName string) {
 		if strings.Contains(line, "return router") {
 			lines[i] = ` //` + moduleName + `
 	router.POST("/` + regex.StringToHyphen(moduleName) + `", ` + moduleName + `Controller.Create` + strings.Title(moduleName) + `)
-	router.GET("/` + regex.StringToHyphen(moduleName) + "-all" + `", ` + moduleName + `Controller.Get` + strings.Title(moduleName) + `)
+	router.GET("/` + regex.StringToHyphen(moduleName) + `", ` + moduleName + `Controller.Get` + strings.Title(moduleName) + `)
 	router.GET("/` + regex.StringToHyphen(moduleName) + `/:` + moduleName + `Id", ` + moduleName + `Controller.GetOne` + strings.Title(moduleName) + `)
 	router.PUT("/` + regex.StringToHyphen(moduleName) + `/:` + moduleName + `Id", ` + moduleName + `Controller.Update` + strings.Title(moduleName) + `)
 	router.DELETE("/` + regex.StringToHyphen(moduleName) + `/:` + moduleName + `Id", ` + moduleName + `Controller.Delete` + strings.Title(moduleName) + `)

@@ -320,7 +320,7 @@ Folder Structure:
 flowchart TD
     C{Folder Structure}
     C -->|controller| D[task] -->N(task.go) 
-    C -->|domain| E[usecase] -->Ñ(tasks) -->O(tasks.go) 
+    C -->|domain| E[usecase] -->Ñ(task) -->O(task.usecase.go) 
     C -->|infraestructure| F[databases]
     C -->|utils| G[databases]
     C -->|env| K[env.go]
