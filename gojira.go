@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	cmd "github.com/saturnavt/gojira/src/cli"
+	cmd "github.com/illud/gojira/src/cli"
 )
 
 func main() {

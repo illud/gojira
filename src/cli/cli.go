@@ -12,8 +12,8 @@ import (
 
 	markdown "github.com/MichaelMure/go-term-markdown"
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/saturnavt/gojira/src/base"
-	input "github.com/saturnavt/gojira/src/cli/input"
+	"github.com/illud/gojira/src/base"
+	input "github.com/illud/gojira/src/cli/input"
 	"github.com/schollz/progressbar/v3"
 )
 

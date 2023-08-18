@@ -1,10 +1,10 @@
 # Gojira
 
-![](https://raw.githubusercontent.com/saturnavt/eskolvar.github.io/main/assets/img/gojira.png)
+![](https://raw.githubusercontent.com/illud/eskolvar.github.io/main/assets/img/gojira.png)
 
-[![Test Status](https://github.com/saturnavt/gojira/actions/workflows/go.yml/badge.svg)](https://github.com/saturnavt/gojira/actions/workflows/go.yml/badge.svg)
-[![GoDoc](https://pkg.go.dev/badge/github.com/saturnavt/gojira?status.svg)](https://pkg.go.dev/github.com/saturnavt/gojira?tab=doc)
-[![Go Report Card](https://goreportcard.com/badge/github.com/saturnavt/gojira)](https://goreportcard.com/report/github.com/saturnavt/gojira)
+[![Test Status](https://github.com/illud/gojira/actions/workflows/go.yml/badge.svg)](https://github.com/illud/gojira/actions/workflows/go.yml/badge.svg)
+[![GoDoc](https://pkg.go.dev/badge/github.com/illud/gojira?status.svg)](https://pkg.go.dev/github.com/illud/gojira?tab=doc)
+[![Go Report Card](https://goreportcard.com/badge/github.com/illud/gojira)](https://goreportcard.com/report/github.com/illud/gojira)
 ## Create project with Clean Architecture folder structure
 
 \
@@ -36,12 +36,12 @@ Gojira requires [Go](https://golang.org/) v1.11+ to run.
 Install the dependencies.
 
 ```sh
-go get github.com/saturnavt/gojira
+go get github.com/illud/gojira
 ```
 Or
 
 ```sh
-go install github.com/saturnavt/gojira@latest
+go install github.com/illud/gojira@latest
 ```
 ## How to use
 

@@ -1,4 +1,4 @@
-module github.com/saturnavt/gojira
+module github.com/illud/gojira
 
 go 1.16
 

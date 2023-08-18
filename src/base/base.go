@@ -9,7 +9,7 @@ import (
 	"runtime"
 	"strings"
 
-	regex "github.com/saturnavt/gojira/src/utils/regex"
+	regex "github.com/illud/gojira/src/utils/regex"
 )
 
 func BaseData(folderName string) {
